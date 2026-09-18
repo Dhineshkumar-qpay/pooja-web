@@ -7,10 +7,12 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { products, categories } from '@/data/mock-data';
+import { products } from '@/data/mock-data';
+import { fetchCategories } from '@/lib/api';
 import { Search, Filter, IndianRupee, Star, ShoppingCart } from 'lucide-react';
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const categories = await fetchCategories();
   return (
     <>
       <Header />
@@ -41,9 +43,9 @@ export default function ProductsPage() {
                     <span className="text-text-secondary text-sm">All Products</span>
                   </label>
                   {categories.map(cat => (
-                    <label key={cat.id} className="flex items-center gap-2 cursor-pointer">
+                    <label key={cat.categoryid} className="flex items-center gap-2 cursor-pointer">
                       <input type="checkbox" className="rounded text-saffron focus:ring-saffron" />
-                      <span className="text-text-secondary text-sm">{cat.name}</span>
+                      <span className="text-text-secondary text-sm">{cat.categoryname}</span>
                     </label>
                   ))}
                 </div>

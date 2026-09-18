@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/home/Hero";
+import { ServiceStrip } from "@/components/home/ServiceStrip";
 import { TrustSection } from "@/components/home/TrustSection";
 import { Categories } from "@/components/home/Categories";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
@@ -15,6 +16,7 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
+        <ServiceStrip />
         <TrustSection />
         <Categories />
         <FeaturedProducts />
