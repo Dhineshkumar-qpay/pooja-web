@@ -17,6 +17,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { products } from "@/data/mock-data";
+import { loginUser, verifyOtp } from "@/lib/api";
 
 export function Header() {
   const router = useRouter();
@@ -24,6 +25,8 @@ export function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginStep, setLoginStep] = useState<"email" | "otp">("email");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   
   // OTP State and Refs
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -59,6 +62,12 @@ export function Header() {
       setSearchQuery("");
     }
   }, [isSearchOpen]);
+
+  useEffect(() => {
+    const handleOpenLogin = () => setIsLoginOpen(true);
+    window.addEventListener('openLogin', handleOpenLogin);
+    return () => window.removeEventListener('openLogin', handleOpenLogin);
+  }, []);
 
   // Lock body scroll when sidebars/modals are open
   useEffect(() => {
@@ -109,7 +118,13 @@ export function Header() {
               </Link>
               <span className="text-border/30">|</span>
               <button
-                onClick={() => setIsLoginOpen(true)}
+                onClick={() => {
+                  if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+                    router.push('/dashboard');
+                  } else {
+                    setIsLoginOpen(true);
+                  }
+                }}
                 className="flex items-center gap-1 hover:text-saffron transition-colors focus:outline-none"
               >
                 <User size={14} /> My Account
@@ -360,15 +375,27 @@ export function Header() {
                       <Input
                         placeholder="Enter your email to continue"
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="h-14 bg-ivory-section/50 border-border/80 focus:border-saffron focus:ring-saffron/20 rounded-xl text-md"
                       />
                     </div>
                     <Button
                       size="lg"
+                      disabled={loading || !email}
                       className="w-full h-14 text-lg rounded-xl shadow-[0_8px_20px_-8px_rgba(198,90,30,0.5)] hover:shadow-[0_12px_25px_-8px_rgba(198,90,30,0.6)] hover:-translate-y-0.5 transition-all mt-10"
-                      onClick={() => setLoginStep("otp")}
+                      onClick={async () => {
+                        setLoading(true);
+                        try {
+                          await loginUser(email);
+                          setLoginStep("otp");
+                        } catch (err) {
+                          alert("Failed to send OTP");
+                        }
+                        setLoading(false);
+                      }}
                     >
-                      Request OTP
+                      {loading ? "Sending..." : "Request OTP"}
                     </Button>
                   </div>
                 </div>
@@ -382,7 +409,7 @@ export function Header() {
                       <p className="text-sm text-text-dark font-medium leading-relaxed">
                         We've sent a 6-digit secure code to your email.
                       </p>
-                      <p className="text-xs text-text-secondary mt-1">user@example.com</p>
+                      <p className="text-xs text-text-secondary mt-1">{email}</p>
                     </div>
                   </div>
 
@@ -409,14 +436,33 @@ export function Header() {
 
                   <Button
                     size="lg"
+                    disabled={loading || otp.join('').length < 6}
                     className="w-full h-14 text-lg rounded-xl  shadow-[0_8px_20px_-8px_rgba(63,125,74,0.5)] hover:shadow-[0_12px_25px_-8px_rgba(63,125,74,0.6)] hover:-translate-y-0.5 transition-all mt-4"
-                    onClick={() => {
-                      setIsLoginOpen(false);
-                      setLoginStep("email");
-                      router.push("/dashboard");
+                    onClick={async () => {
+                      setLoading(true);
+                      try {
+                        const res = await verifyOtp(email, otp.join(''));
+                        if (res.data?.token) {
+                          localStorage.setItem("token", res.data.token);
+                          localStorage.setItem("userid", res.data.userid);
+                          setIsLoginOpen(false);
+                          setLoginStep("email");
+                          setOtp(["", "", "", "", "", ""]);
+                          
+                          // Custom event to notify that login was successful without reloading
+                          window.dispatchEvent(new Event('loginSuccess'));
+                          
+                          if (window.location.pathname === '/' || window.location.pathname === '/login') {
+                            router.push("/dashboard");
+                          }
+                        }
+                      } catch (err) {
+                        alert("Invalid OTP");
+                      }
+                      setLoading(false);
                     }}
                   >
-                    Verify & Login
+                    {loading ? "Verifying..." : "Verify & Login"}
                   </Button>
 
                   <div className="text-center pt-2 flex flex-col gap-3">
