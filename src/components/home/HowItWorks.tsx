@@ -34,7 +34,7 @@ export function HowItWorks() {
     <section className="relative py-28 overflow-hidden bg-text-dark">
       <div
         className="absolute inset-0 z-0 bg-cover bg-center bg-fixed opacity-40"
-        style={{ backgroundImage: "url('why-us.jpeg')" }}
+        style={{ backgroundImage: "url('why.jpeg')" }}
       />
 
       <div className="w-full px-6 md:px-12 relative z-10">

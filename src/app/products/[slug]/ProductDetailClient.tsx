@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ApiProduct, IMAGE_BASE_URL, addProductReview } from "@/lib/api";
+import { ApiProduct, IMAGE_BASE_URL, addProductReview, addToCart, buyNow, addFavourite } from "@/lib/api";
 import {
   IndianRupee,
   Star,
@@ -22,6 +22,7 @@ import {
   X,
   ZoomIn,
   ZoomOut,
+  Heart,
 } from "lucide-react";
 
 export default function ProductDetailClient({
@@ -39,8 +40,8 @@ export default function ProductDetailClient({
     category: productData.categoryname,
     imageUrl: `${IMAGE_BASE_URL}${productData.thumbnailimage}`,
     images:
-      productData.images && productData.images.length > 0
-        ? productData.images.map((img: string) => `${IMAGE_BASE_URL}${img}`)
+      productData.images && (Array.isArray(productData.images) ? productData.images.length > 0 : typeof productData.images === 'string' && productData.images.length > 0)
+        ? (Array.isArray(productData.images) ? productData.images : (function () { try { return JSON.parse(productData.images); } catch (e) { return []; } })()).map((img: string) => `${IMAGE_BASE_URL}${img}`)
         : [`${IMAGE_BASE_URL}${productData.thumbnailimage}`],
     price: productData.sellingprice,
     originalPrice:
@@ -48,10 +49,13 @@ export default function ProductDetailClient({
         ? productData.price
         : undefined,
     inStock: productData.stockquantity > 0,
-    rating: 4.9,
-    reviewsCount: productData.reviews?.length || 0,
+    rating: productData.averagerating || 5.0,
+    reviewsCount: productData.totalrating || 0,
     description: productData.description,
     shortDescription: productData.description,
+    averagerating: productData.averagerating || 0.0,
+    totalrating: productData.totalrating || 0,
+    isFavourite: productData.isFavourite || false,
     features: productData.benefits
       ? [productData.benefits]
       : ["Authentic spiritual product"],
@@ -67,8 +71,8 @@ export default function ProductDetailClient({
       price: p.sellingprice,
       originalPrice: p.price !== p.sellingprice ? p.price : undefined,
       inStock: p.stockquantity > 0,
-      rating: 4.9,
-      reviewsCount: 0,
+      rating: p.averagerating,
+      reviewsCount: p.totalrating,
       description: p.description,
       shortDescription: p.description,
     }))
@@ -103,6 +107,73 @@ export default function ProductDetailClient({
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setTimeout(() => setModalZoomLevel(1), 300); // Reset zoom after modal closes
+  };
+
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [isBuyingNow, setIsBuyingNow] = useState(false);
+  const [addingToFavourite, setAddingToFavourite] = useState(false);
+  const [isFav, setIsFav] = useState(product.isFavourite);
+
+  const handleAddToFavourite = async () => {
+    if (typeof window !== 'undefined' && !localStorage.getItem('token')) {
+      window.dispatchEvent(new Event('openLogin'));
+      return;
+    }
+
+    if (isFav) {
+      router.push('/dashboard');
+      return;
+    }
+
+    setAddingToFavourite(true);
+    try {
+      await addFavourite(productData.productid);
+      setIsFav(true);
+      alert("Product added to wishlist successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to add to wishlist");
+    } finally {
+      setAddingToFavourite(false);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (typeof window !== 'undefined' && !localStorage.getItem('token')) {
+      window.dispatchEvent(new Event('openLogin'));
+      return;
+    }
+
+    setAddingToCart(true);
+    try {
+      await addToCart(productData.productid);
+      window.dispatchEvent(new Event('cartUpdated'));
+      alert("Product added to cart successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to add to cart");
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
+  const handleBuyNow = async () => {
+    if (typeof window !== 'undefined' && !localStorage.getItem('token')) {
+      window.dispatchEvent(new Event('openLogin'));
+      return;
+    }
+
+    setIsBuyingNow(true);
+    try {
+      await buyNow(productData.productid);
+      window.dispatchEvent(new Event('cartUpdated'));
+      router.push('/checkout');
+    } catch (err) {
+      console.error(err);
+      alert("Failed to process buy now");
+    } finally {
+      setIsBuyingNow(false);
+    }
   };
 
   async function handleSubmit(e: React.FormEvent) {
@@ -197,7 +268,7 @@ export default function ProductDetailClient({
                 </div>
                 {product.images.length > 0 && (
                   <div className="flex gap-4 overflow-x-auto pb-2 mt-4">
-                    {product.images.map((img, idx) => (
+                    {product.images.map((img: string, idx: number) => (
                       <div
                         key={idx}
                         onClick={() => setSelectedImage(img)}
@@ -220,9 +291,19 @@ export default function ProductDetailClient({
               <Badge className="mb-4 bg-saffron/10 text-saffron border-saffron/20">
                 {product.category}
               </Badge>
-              <h1 className="text-3xl md:text-4xl font-serif font-bold text-text-dark mb-4 leading-tight">
-                {product.name}
-              </h1>
+              <div className="flex justify-between items-start gap-4">
+                <h1 className="text-3xl md:text-4xl font-serif font-bold text-text-dark mb-4 leading-tight">
+                  {product.name}
+                </h1>
+                <button
+                  onClick={handleAddToFavourite}
+                  disabled={addingToFavourite}
+                  className={`p-3 rounded-full bg-white border border-border/60 text-text-secondary hover:text-saffron hover:bg-saffron/5 hover:border-saffron/30 transition-all shadow-sm shrink-0 ${isFav ? 'text-saffron border-saffron/30 bg-saffron/5' : ''}`}
+                  title={isFav ? "View Wishlist" : "Add to Wishlist"}
+                >
+                  <Heart size={22} className={`${addingToFavourite ? "animate-pulse" : ""} ${isFav ? "fill-saffron text-saffron" : ""}`} />
+                </button>
+              </div>
 
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex items-center gap-1">
@@ -247,9 +328,9 @@ export default function ProductDetailClient({
                     {product.originalPrice}
                   </div>
                 )}
-                <span className="text-sm text-success font-medium mb-1.5 ml-2">
+                {/* <span className="text-sm text-success font-medium mb-1.5 ml-2">
                   (Inclusive of all taxes)
-                </span>
+                </span> */}
               </div>
 
               <p className="text-text-secondary leading-relaxed mb-8 text-lg">
@@ -258,33 +339,24 @@ export default function ProductDetailClient({
 
               {/* Add to Cart */}
               <div className="bg-white p-6 rounded-2xl border border-border/60 shadow-sm mb-10">
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="font-medium text-text-dark">Quantity:</span>
-                  <div className="flex items-center border border-border rounded-lg overflow-hidden">
-                    <button className="px-4 py-2 hover:bg-ivory-section transition-colors text-text-secondary">
-                      -
-                    </button>
-                    <span className="px-4 py-2 font-medium text-text-dark border-x border-border">
-                      1
-                    </span>
-                    <button className="px-4 py-2 hover:bg-ivory-section transition-colors text-text-secondary">
-                      +
-                    </button>
-                  </div>
-                </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     size="lg"
                     variant="outline"
                     className="flex-1 bg-white"
+                    onClick={handleAddToCart}
+                    disabled={addingToCart}
                   >
-                    <ShoppingCart size={18} className="mr-2" /> Add to Cart
+                    <ShoppingCart size={18} className="mr-2" /> {addingToCart ? "Adding..." : "Add to Cart"}
                   </Button>
-                  <Link href="/checkout" className="flex-1">
-                    <Button size="lg" className="w-full">
-                      Buy Now
-                    </Button>
-                  </Link>
+                  <Button
+                    size="lg"
+                    className="flex-1"
+                    onClick={handleBuyNow}
+                    disabled={isBuyingNow}
+                  >
+                    {isBuyingNow ? "Processing..." : "Buy Now"}
+                  </Button>
                 </div>
                 <div className="mt-6 flex flex-col gap-3 pt-6 border-t border-border/50 text-sm">
                   <div className="flex items-center gap-3 text-text-secondary">

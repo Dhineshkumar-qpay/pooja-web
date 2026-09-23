@@ -8,7 +8,7 @@ export function Hero() {
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('https://t3.ftcdn.net/jpg/20/84/60/38/240_F_2084603814_xWC60xdKdt1UEiuFkEDgZqaPOBPFvmBo.jpg')" }}
+        style={{ backgroundImage: "url('hero.jpeg')" }}
       >
         <div className="absolute inset-0 bg-black/60"></div>
       </div>

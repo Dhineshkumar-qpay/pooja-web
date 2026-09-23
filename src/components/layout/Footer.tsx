@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
@@ -13,56 +13,138 @@ export function Footer() {
               <div className="size-8 rounded-full bg-saffron flex items-center justify-center">
                 <span className="text-white font-serif font-bold">ॐ</span>
               </div>
-              <span className="font-serif text-xl font-bold text-saffron-dark">DivinePooja</span>
+              <span className="font-serif text-xl font-bold text-saffron-dark">
+                DivinePooja
+              </span>
             </Link>
             <p className="text-text-secondary text-sm mb-6 leading-relaxed">
-              Book authentic Hindu poojas and spiritual ceremonies performed by experienced priests with devotion and tradition.
+              Shop authentic pooja products and spiritual essentials, carefully
+              selected to support your daily prayers, rituals, and traditional
+              ceremonies.
             </p>
             <div className="flex items-center gap-4 mt-2">
-              <a href="#" className="hover:scale-110 transition-transform opacity-80 hover:opacity-100">
-                <img src="https://cdn-icons-png.flaticon.com/128/145/145802.png" alt="Facebook" className="w-8 h-8" />
+              <a
+                href="#"
+                className="hover:scale-110 transition-transform opacity-80 hover:opacity-100"
+              >
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/145/145802.png"
+                  alt="Facebook"
+                  className="w-8 h-8"
+                />
               </a>
-              <a href="#" className="hover:scale-110 transition-transform opacity-80 hover:opacity-100">
-                <img src="https://cdn-icons-png.flaticon.com/128/3955/3955024.png" alt="Instagram" className="w-8 h-8" />
+              <a
+                href="#"
+                className="hover:scale-110 transition-transform opacity-80 hover:opacity-100"
+              >
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/3955/3955024.png"
+                  alt="Instagram"
+                  className="w-8 h-8"
+                />
               </a>
             </div>
           </div>
 
           {/* Company */}
           <div>
-            <h3 className="font-serif text-lg font-bold text-text-dark mb-6">Company</h3>
+            <h3 className="font-serif text-lg font-bold text-text-dark mb-6">
+              Company
+            </h3>
             <ul className="space-y-4">
-              <li><Link href="/about" className="text-sm text-text-secondary hover:text-saffron transition-colors">Our Story</Link></li>
-              <li><Link href="/contact" className="text-sm text-text-secondary hover:text-saffron transition-colors">Contact</Link></li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-sm text-text-secondary hover:text-saffron transition-colors"
+                >
+                  Our Story
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-sm text-text-secondary hover:text-saffron transition-colors"
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h3 className="font-serif text-lg font-bold text-text-dark mb-6">Support</h3>
+            <h3 className="font-serif text-lg font-bold text-text-dark mb-6">
+              Support
+            </h3>
             <ul className="space-y-4">
-              <li><Link href="/faq" className="text-sm text-text-secondary hover:text-saffron transition-colors">FAQ</Link></li>
-              <li><Link href="/faq" className="text-sm text-text-secondary hover:text-saffron transition-colors">Booking Help</Link></li>
-              <li><Link href="/privacy" className="text-sm text-text-secondary hover:text-saffron transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="text-sm text-text-secondary hover:text-saffron transition-colors">Terms & Conditions</Link></li>
+              <li>
+                <Link
+                  href="/faq"
+                  className="text-sm text-text-secondary hover:text-saffron transition-colors"
+                >
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/shipping-policy"
+                  className="text-sm text-text-secondary hover:text-saffron transition-colors"
+                >
+                  Shipping Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/cancellation-policy"
+                  className="text-sm text-text-secondary hover:text-saffron transition-colors"
+                >
+                  Cancellation & Return Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/privacy"
+                  className="text-sm text-text-secondary hover:text-saffron transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/terms"
+                  className="text-sm text-text-secondary hover:text-saffron transition-colors"
+                >
+                  Terms & Conditions
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="font-serif text-lg font-bold text-text-dark mb-6">Contact</h3>
+            <h3 className="font-serif text-lg font-bold text-text-dark mb-6">
+              Contact
+            </h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Phone size={18} className="text-saffron mt-0.5 shrink-0" />
-                <span className="text-sm text-text-secondary">+91 98765 43210</span>
+                <span className="text-sm text-text-secondary">
+                  +91 98765 43210
+                </span>
               </li>
               <li className="flex items-start gap-3">
                 <Mail size={18} className="text-saffron mt-0.5 shrink-0" />
-                <span className="text-sm text-text-secondary">support@divinepooja.com</span>
+                <span className="text-sm text-text-secondary">
+                  support@divinepooja.com
+                </span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={18} className="text-saffron mt-0.5 shrink-0" />
-                <span className="text-sm text-text-secondary">123 Spiritual Way, Temple District, Mumbai 400001</span>
+                <span className="text-sm text-text-secondary">
+                  {" "}
+                  16, Indira Gandhi St, EB Officer's Colony, Surampatti Valasu,
+                  Veerappanchatram, Erode, Tamil Nadu 638011
+                </span>
               </li>
             </ul>
           </div>

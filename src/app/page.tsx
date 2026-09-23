@@ -9,6 +9,7 @@ import { NewArrivals } from "@/components/home/NewArrivals";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { Testimonials } from "@/components/home/Testimonials";
 import { CTASection } from "@/components/home/CTASection";
+import { BannersSection } from "@/components/home/BannersSection";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <FeaturedProducts />
         <HowItWorks />
         <NewArrivals />
+        <BannersSection />
         <Testimonials />
         <CTASection />
       </main>

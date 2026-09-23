@@ -23,7 +23,6 @@ export function CTASection() {
         {/* Trust badges */}
         <div className="flex flex-wrap justify-center gap-6 mb-10">
           {[
-            { icon: ShoppingBag, text: "500+ Sacred Products" },
             { icon: Star, text: "4.9★ Rated by Devotees" },
             { icon: Shield, text: "100% Authentic & Pure" },
           ].map(({ icon: Icon, text }) => (

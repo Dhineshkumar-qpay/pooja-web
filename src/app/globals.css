@@ -35,7 +35,9 @@
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
 }
+
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -43,7 +45,7 @@
   ::file-selector-button {
     border-color: var(--color-border, currentColor);
   }
-  
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -51,8 +53,13 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-serif);
     color: var(--color-text-dark);
   }

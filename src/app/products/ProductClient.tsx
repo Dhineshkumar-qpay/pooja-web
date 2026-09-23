@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Filter, IndianRupee, Star, ShoppingCart } from 'lucide-react';
 import { ApiCategory, ApiProduct, fetchProducts, IMAGE_BASE_URL } from '@/lib/api';
+import { AddToCartButton } from '@/components/ui/AddToCartButton';
 
 interface ProductClientProps {
   categories: ApiCategory[];
@@ -20,6 +21,7 @@ export function ProductClient({ categories }: ProductClientProps) {
   const [categoryid, setCategoryid] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [sort, setSort] = useState<string>('');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
     async function loadProducts() {
@@ -38,10 +40,21 @@ export function ProductClient({ categories }: ProductClientProps) {
 
   return (
     <div className="w-full px-6 md:px-12 mt-8 flex flex-col md:flex-row gap-8">
+      {/* Mobile Filter Toggle */}
+      <div className="md:hidden flex justify-between items-center mb-2">
+        <Button 
+          variant="outline" 
+          onClick={() => setIsFilterOpen(!isFilterOpen)}
+          className="flex items-center gap-2 w-full justify-center"
+        >
+          <Filter size={18} /> {isFilterOpen ? 'Hide Filters' : 'Show Filters'}
+        </Button>
+      </div>
+
       {/* Sidebar Filters */}
-      <aside className="w-full md:w-1/4 shrink-0">
+      <aside className={`w-full md:w-1/4 shrink-0 ${isFilterOpen ? 'block' : 'hidden md:block'}`}>
         <div className="bg-white p-6 rounded-xl border border-border shadow-sm sticky top-28">
-          <div className="flex items-center gap-2 font-bold text-text-dark text-lg mb-6 pb-4 border-b border-border">
+          <div className="hidden md:flex items-center gap-2 font-bold text-text-dark text-lg mb-6 pb-4 border-b border-border">
             <Filter size={20} className="text-saffron" /> Filters
           </div>
 
@@ -123,14 +136,14 @@ export function ProductClient({ categories }: ProductClientProps) {
 
       {/* Product Grid */}
       <div className="flex-1">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
           <p className="text-text-secondary">
             Showing <span className="font-bold text-text-dark">{products.length}</span> products
           </p>
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
-            className="border border-border rounded-md px-3 py-1.5 text-sm text-text-dark bg-white focus:outline-none focus:ring-1 focus:ring-saffron"
+            className="border border-border rounded-md px-3 py-2 sm:py-1.5 text-sm text-text-dark bg-white focus:outline-none focus:ring-1 focus:ring-saffron w-full sm:w-auto"
           >
             <option value="">Sort by: Featured</option>
             <option value="low-to-high">Price: Low to High</option>
@@ -166,8 +179,8 @@ export function ProductClient({ categories }: ProductClientProps) {
                 <CardContent className="p-5 flex flex-col flex-1">
                   <div className="flex items-center gap-1 mb-2">
                     <Star size={14} className="fill-gold text-gold" />
-                    <span className="text-sm font-medium text-text-dark">4.9</span>
-                    <span className="text-xs text-text-secondary">(124)</span>
+                    <span className="text-sm font-medium text-text-dark">{product.averagerating || "5.0"}</span>
+                    <span className="text-xs text-text-secondary">({product.totalrating || 0})</span>
                   </div>
                   <Link href={`/products/${product.productid}`} className="hover:text-saffron transition-colors before:absolute before:inset-0 before:z-10">
                     <h3 className="font-serif font-bold text-lg text-text-dark mb-1 line-clamp-1">{product.productname}</h3>
@@ -188,11 +201,7 @@ export function ProductClient({ categories }: ProductClientProps) {
                         </div>
                       )}
                     </div>
-                    <Link href={`/products/${product.productid}`} className="relative z-20">
-                      <Button size="sm" variant="outline" className="gap-2">
-                        View <ShoppingCart size={14} />
-                      </Button>
-                    </Link>
+                    <AddToCartButton productid={product.productid} className="group-hover:bg-saffron group-hover:text-white group-hover:border-saffron" />
                   </div>
                 </CardContent>
               </Card>

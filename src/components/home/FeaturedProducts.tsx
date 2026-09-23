@@ -7,6 +7,7 @@ import { Card, CardContent } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { fetchProducts, IMAGE_BASE_URL } from '@/lib/api';
 import { IndianRupee, Star, ShoppingCart } from 'lucide-react';
+import { AddToCartButton } from '../ui/AddToCartButton';
 
 export async function FeaturedProducts() {
   const featured = await fetchProducts({ isFeatured: true });
@@ -45,8 +46,8 @@ export async function FeaturedProducts() {
               <CardContent className="p-6 flex flex-col flex-1 bg-white">
                 <div className="flex items-center gap-1 mb-2">
                   <Star size={14} className="fill-gold text-gold" />
-                  <span className="text-sm font-medium text-text-dark">4.9</span>
-                  <span className="text-xs text-text-secondary">(124)</span>
+                  <span className="text-sm font-medium text-text-dark">{product.averagerating || "5.0"}</span>
+                  <span className="text-xs text-text-secondary">({product.totalrating || 0})</span>
                 </div>
                 <Link href={`/products/${product.productid}`} className="hover:text-saffron transition-colors before:absolute before:inset-0 before:z-10">
                   <h3 className="font-serif font-bold text-xl text-text-dark mb-2 line-clamp-1">{product.productname}</h3>
@@ -67,11 +68,7 @@ export async function FeaturedProducts() {
                       </div>
                     )}
                   </div>
-                  <Link href={`/products/${product.productid}`} className="relative z-20">
-                    <Button variant="outline" className="gap-2 font-semibold group-hover:bg-saffron group-hover:text-white group-hover:border-saffron transition-all">
-                      View <ShoppingCart size={16} />
-                    </Button>
-                  </Link>
+                  <AddToCartButton productid={product.productid} className="group-hover:bg-saffron group-hover:text-white group-hover:border-saffron" />
                 </div>
               </CardContent>
             </Card>
