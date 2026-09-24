@@ -63,14 +63,14 @@ export default function AboutPage() {
         <div className="w-full border-b border-border shadow-sm min-h-[200px] lg:min-h-[250px] flex items-center relative overflow-hidden mb-12">
           {/* Background Image */}
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1590059530510-188b77a7df84?w=1920&q=80')] bg-cover bg-center bg-no-repeat z-0"></div>
-          
+
           {/* Glass Overlay */}
           <div className="absolute inset-0 bg-white/75 backdrop-blur-md z-0"></div>
 
           {/* Subtle corporate background pattern/shapes */}
           <div className="absolute top-0 right-0 w-1/3 h-full bg-saffron/10 skew-x-12 translate-x-16 z-0 mix-blend-multiply"></div>
           <div className="absolute top-0 right-0 w-1/4 h-full bg-saffron/20 skew-x-12 translate-x-24 z-0 mix-blend-multiply"></div>
-          
+
           <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
             <div className="max-w-3xl mx-auto">
               <div className="inline-block px-3 py-1 mb-4 rounded bg-saffron/10 text-saffron font-semibold text-sm tracking-widest uppercase">
@@ -92,7 +92,7 @@ export default function AboutPage() {
             <div className="md:w-1/2">
               <div className="relative h-[400px] w-full rounded-2xl overflow-hidden shadow-xl border-4 border-white">
                 <img
-                  src="https://www.mypoojabox.in/cdn/shop/collections/26c92712a02585550e716cd99f294bbc.jpg?v=1643028341"
+                  src="our.jpeg"
                   alt="Traditional items"
                   className="w-full h-full object-cover"
                 />
@@ -146,7 +146,7 @@ export default function AboutPage() {
             <div className="absolute -top-24 -left-24 size-96 bg-saffron/20 rounded-full blur-[100px]"></div>
             <div className="absolute top-1/2 right-0 size-96 bg-gold/20 rounded-full blur-[100px]"></div>
           </div>
-          
+
           <div className="w-full px-6 md:px-12 max-w-6xl mx-auto relative z-10">
             <SectionHeading title="Our Purpose" subtitle="What drives us every single day." centered />
 
@@ -154,7 +154,7 @@ export default function AboutPage() {
               {/* Mission Card */}
               <Card className="flex-1 border border-border/40 bg-white/60 backdrop-blur-md shadow-sm hover:shadow-2xl hover:border-saffron/40 transition-all duration-500 group rounded-[2rem] overflow-hidden relative">
                 <div className="absolute -top-8 -right-8 text-saffron/5 group-hover:text-saffron/10 transition-colors duration-500 transform -scale-x-100">
-                   <Target size={180} />
+                  <Target size={180} />
                 </div>
                 <CardContent className="p-12 text-center flex flex-col items-center relative z-10 h-full">
                   <div className="size-20 rounded-2xl bg-gradient-to-br from-saffron to-saffron-dark flex items-center justify-center text-white mb-8 shadow-lg shadow-saffron/30 group-hover:scale-110 transition-transform duration-500 -rotate-6 group-hover:rotate-0">
@@ -170,7 +170,7 @@ export default function AboutPage() {
               {/* Vision Card */}
               <Card className="flex-1 border border-border/40 bg-white/60 backdrop-blur-md shadow-sm hover:shadow-2xl hover:border-gold/40 transition-all duration-500 group rounded-[2rem] overflow-hidden relative">
                 <div className="absolute -top-8 -right-8 text-gold/5 group-hover:text-gold/10 transition-colors duration-500 transform -scale-x-100">
-                   <Lightbulb size={180} />
+                  <Lightbulb size={180} />
                 </div>
                 <CardContent className="p-12 text-center flex flex-col items-center relative z-10 h-full">
                   <div className="size-20 rounded-2xl bg-gradient-to-br from-gold to-[#c79122] flex items-center justify-center text-white mb-8 shadow-lg shadow-gold/30 group-hover:scale-110 transition-transform duration-500 rotate-6 group-hover:rotate-0">
@@ -190,12 +190,12 @@ export default function AboutPage() {
         <div className="bg-ivory-section py-24 relative overflow-hidden">
           {/* Subtle background graphics */}
           <div className="absolute top-0 left-1/4 w-full h-full opacity-20 pointer-events-none">
-             <div className="absolute top-20 left-0 size-64 bg-gold/20 rounded-full blur-[80px]"></div>
+            <div className="absolute top-20 left-0 size-64 bg-gold/20 rounded-full blur-[80px]"></div>
           </div>
-          
+
           <div className="w-full px-6 md:px-12 max-w-7xl mx-auto relative z-10">
             <SectionHeading title="What We Offer" subtitle="Explore our wide range of authentic spiritual products." centered />
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
               {[
                 { icon: "🪔", title: "Pooja Items", desc: "Sacred tools for your daily rituals and ceremonies." },
@@ -207,8 +207,8 @@ export default function AboutPage() {
                 { icon: "🎁", title: "Devotional Gifts", desc: "Meaningful gifts for weddings, housewarmings, and festivals." },
                 { icon: "📿", title: "Accessories", desc: "Malas, yantras, and tools for deep meditation." }
               ].map((item, idx) => (
-                <Card 
-                  key={idx} 
+                <Card
+                  key={idx}
                   className="border border-border/40 bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-xl hover:border-saffron/40 transition-all duration-500 text-left group cursor-pointer rounded-3xl overflow-hidden relative transform hover:-translate-y-2 flex flex-col"
                 >
                   <div className="absolute -bottom-6 -right-6 text-7xl opacity-5 group-hover:opacity-10 group-hover:scale-125 transition-all duration-500 grayscale group-hover:grayscale-0 pointer-events-none">

@@ -40,8 +40,8 @@ export default function ProductDetailClient({
     category: productData.categoryname,
     imageUrl: `${IMAGE_BASE_URL}${productData.thumbnailimage}`,
     images:
-      productData.images && (Array.isArray(productData.images) ? productData.images.length > 0 : typeof productData.images === 'string' && productData.images.length > 0)
-        ? (Array.isArray(productData.images) ? productData.images : (function () { try { return JSON.parse(productData.images); } catch (e) { return []; } })()).map((img: string) => `${IMAGE_BASE_URL}${img}`)
+      productData.images && (Array.isArray(productData.images) ? productData.images.length > 0 : typeof (productData.images as any) === 'string' && (productData.images as any).length > 0)
+        ? (Array.isArray(productData.images) ? productData.images : (function () { try { return JSON.parse(productData.images as any); } catch (e) { return []; } })()).map((img: string) => `${IMAGE_BASE_URL}${img}`)
         : [`${IMAGE_BASE_URL}${productData.thumbnailimage}`],
     price: productData.sellingprice,
     originalPrice:

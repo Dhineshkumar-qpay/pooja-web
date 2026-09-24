@@ -213,7 +213,7 @@ export default function DashboardPage() {
                     >
                       <Heart size={18} /> Wishlist
                     </button>
-                    <Link href="/" className="flex items-center gap-3 px-6 py-4 text-left text-error hover:bg-error/5 transition-colors mt-4 border-t border-border/50">
+                    <Link href="/" onClick={() => localStorage.clear()} className="flex items-center gap-3 px-6 py-4 text-left text-error hover:bg-error/5 transition-colors mt-4 border-t border-border/50">
                       <LogOut size={18} /> Sign Out
                     </Link>
                   </nav>

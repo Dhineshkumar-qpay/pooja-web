@@ -7,7 +7,7 @@ export async function Categories() {
   const categories = await fetchCategories();
 
   return (
-    <section className="py-16 bg-ivory-section">
+    <section id="categories" className="py-16 bg-ivory-section">
       <div className="w-full px-6 md:px-12">
         <SectionHeading 
           title="Explore by Category" 
