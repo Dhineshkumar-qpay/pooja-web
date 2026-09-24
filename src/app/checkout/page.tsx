@@ -115,6 +115,7 @@ function CheckoutFlow() {
   const [couponError, setCouponError] = useState("");
   const [coupons, setCoupons] = useState<ApiCoupon[]>([]);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
 
   const fetchCouponsData = async () => {
     const data = await getCoupons();
@@ -139,7 +140,7 @@ function CheckoutFlow() {
 
   async function applyCoupon(codeToApply?: string) {
     const code = (codeToApply || coupon).trim().toUpperCase();
-    
+
     try {
       const res = await applyCouponToCart(code);
       if (res && res.status === 200) {
@@ -165,7 +166,7 @@ function CheckoutFlow() {
       alert("Please select an address first");
       return;
     }
-    
+
     setIsPlacingOrder(true);
     try {
       const code = appliedCoupon?.couponcode || couponResult?.couponcode;
@@ -196,6 +197,7 @@ function CheckoutFlow() {
         const orderIdReturned = response.razorpay_order_id;
         const signature = response.razorpay_signature;
 
+        setIsVerifyingPayment(true);
         try {
           const verifyRes = await verifyPayment({
             orderid: orderId,
@@ -214,6 +216,8 @@ function CheckoutFlow() {
         } catch (e) {
           console.error(e);
           alert("Payment verification failed.");
+        } finally {
+          setIsVerifyingPayment(false);
         }
       },
       prefill: {
@@ -230,63 +234,83 @@ function CheckoutFlow() {
   // ── Confirmation ──────────────────────────────────────────────
   if (step === 3) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-20 px-6">
-        <div className="relative size-32 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-8 text-success shadow-[0_0_40px_rgba(63,125,74,0.2)]">
-          <div className="absolute inset-0 rounded-full border-4 border-success/30 animate-pulse" />
-          <Check size={64} className="relative z-10" />
-        </div>
-        <Badge className="mb-4 bg-success/10 text-success border-success/20">
-          Payment Successful
-        </Badge>
-        <h2 className="text-4xl md:text-5xl font-serif font-bold text-text-dark mb-4">
-          Order Confirmed!
-        </h2>
-        <p className="text-lg text-text-secondary mb-3 leading-relaxed">
-          Thank you,{" "}
-          <span className="font-semibold text-text-dark">
-            {form.firstName || "Customer"}
-          </span>
-          ! Your order{" "}
-          <span className="font-bold text-saffron-dark">
-            #{placedOrderId.slice(0, 8).toUpperCase() || "ORD"}
-          </span>{" "}
-          has been placed.
-        </p>
-        <p className="text-sm text-text-secondary mb-10">
-          A confirmation will be sent to{" "}
-          <span className="font-medium text-text-dark">
-            {form.email || "your email"}
-          </span>
-          .
-        </p>
+      <div className="max-w-3xl mx-auto py-20 px-6 animate-in zoom-in-95 duration-700">
+        <div className="bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-border/50 overflow-hidden relative">
+          {/* Top banner / Confetti abstraction */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-success/20 via-success/5 to-transparent pointer-events-none"></div>
 
-        <div className="bg-white rounded-2xl border border-border p-6 mb-10 text-left space-y-3">
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">Items</span>
-            <span className="font-medium text-text-dark">
-              {cart?.cartItems?.length || 0}
-            </span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-text-secondary">Delivery</span>
-            <span className="font-medium text-text-dark">
-              Standard Delivery
-            </span>
-          </div>
-          <div className="flex justify-between text-sm border-t border-border pt-3">
-            <span className="font-bold text-text-dark">Total Paid</span>
-            <span className="font-bold text-saffron-dark">₹{total}</span>
+          <div className="p-10 md:p-14 text-center relative z-10 flex flex-col items-center">
+            {/* Animated Check */}
+            <div className="relative size-28 mb-8">
+              <div className="absolute inset-0 bg-success/20 rounded-full animate-ping opacity-75"></div>
+              <div className="relative size-full bg-gradient-to-tr from-success to-emerald-400 rounded-full flex items-center justify-center shadow-xl shadow-success/30 transform transition-transform hover:scale-105 duration-300">
+                <Check size={50} className="text-white stroke-[3]" />
+              </div>
+            </div>
+
+            <Badge className="mb-6 bg-success/10 text-success border-success/20 px-4 py-1.5 text-sm uppercase tracking-widest font-black rounded-full">
+              Payment Successful
+            </Badge>
+
+            <h2 className="text-4xl md:text-5xl font-serif font-black text-text-dark mb-4 tracking-tight">
+              Order Confirmed!
+            </h2>
+
+            <p className="text-lg text-text-secondary mb-2 max-w-lg mx-auto leading-relaxed">
+              Thank you, <span className="font-bold text-text-dark">{form.firstName || "Customer"}</span>. Your spiritual items are being prepared with care.
+            </p>
+
+            <div className="inline-flex items-center gap-2 bg-ivory px-4 py-2 rounded-xl border border-border/50 mb-10 mt-2">
+              <span className="text-sm text-text-secondary">Order ID:</span>
+              <span className="font-mono font-bold text-saffron-dark text-base tracking-widest">
+                #{placedOrderId.slice(0, 8).toUpperCase() || "ORD-XXXX"}
+              </span>
+            </div>
+
+            {/* Receipt Card */}
+            <div className="w-full max-w-md bg-ivory-section rounded-2xl p-1 relative border border-border/50 shadow-sm">
+              <div className="absolute -left-2 top-1/2 -translate-y-1/2 size-4 rounded-full bg-white border-r border-border/50 z-10"></div>
+              <div className="absolute -right-2 top-1/2 -translate-y-1/2 size-4 rounded-full bg-white border-l border-border/50 z-10"></div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-border/30 border-dashed relative overflow-hidden">
+                <h4 className="text-sm font-bold uppercase tracking-widest text-text-secondary mb-4 text-left border-b border-border/50 pb-3">Order Summary</h4>
+
+                <div className="space-y-3 mb-4">
+                  <div className="flex justify-between items-center text-sm font-medium text-text-dark">
+                    <span>Total Items</span>
+                    <span className="bg-ivory px-2 py-0.5 rounded-md">{cart?.cartItems?.length || 0}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm font-medium text-text-dark">
+                    <span>Delivery</span>
+                    <span className="text-success font-bold">Standard</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm font-medium text-text-dark">
+                    <span>Email sent to</span>
+                    <span className="text-xs text-text-secondary truncate max-w-[150px]">{form.email || "your email"}</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center border-t border-border/50 pt-4 mt-2">
+                  <span className="text-base font-black text-text-dark">Total Paid</span>
+                  <span className="text-2xl font-black text-saffron-dark">₹{total}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-12 flex flex-col sm:flex-row gap-4 w-full max-w-md">
+              <Link href={`/orders/${placedOrderId}`} className="flex-1">
+                <Button size="lg" className="w-full h-14 text-base font-bold rounded-xl shadow-lg shadow-text-dark/10 hover:shadow-xl hover:-translate-y-1 transition-all bg-saffron hover:bg-saffron-dark text-white cursor-pointer">
+                  Track Order
+                </Button>
+              </Link>
+              <Link href="/products" className="flex-1">
+                <Button size="lg" variant="outline" className="w-full h-14 text-base font-bold rounded-xl border-2 hover:bg-saffron transition-all text-text-dark cursor-pointer">
+                  Continue Shopping
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
-
-        <Link href="/dashboard">
-          <Button
-            size="lg"
-            className="px-10 h-14 text-lg rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all"
-          >
-            Track Order in Dashboard
-          </Button>
-        </Link>
       </div>
     );
   }
@@ -643,56 +667,59 @@ function CheckoutFlow() {
                   </div>
 
                   {/* Available Coupons */}
-                  <div>
-                    <h3 className="text-sm font-bold text-text-dark mb-3 flex items-center gap-2">
-                      <Gift size={14} className="text-saffron" /> Available
-                      Coupons
+                  <div className="pt-1">
+                    <h3 className="text-sm font-extrabold text-text-dark mb-4 flex items-center gap-2 uppercase tracking-wide">
+                      <div className="p-1.5 bg-saffron/10 rounded-lg text-saffron shadow-sm border border-saffron/20">
+                        <Gift size={16} />
+                      </div>
+                      Available Coupons
                     </h3>
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       {coupons.map((c, i) => {
-                        const colors = [
-                          "from-saffron/20 to-saffron/5",
-                          "from-gold/20 to-gold/5",
-                          "from-temple-green/20 to-temple-green/5"
+                        const themes = [
+                          { bg: "bg-gradient-to-br from-orange-400 to-pink-500", text: "text-white", border: "border-orange-200", btnText: "text-orange-600", btnBg: "bg-orange-50", btnHover: "hover:bg-orange-500 hover:text-white hover:border-orange-500" },
+                          { bg: "bg-gradient-to-br from-emerald-400 to-teal-500", text: "text-white", border: "border-emerald-200", btnText: "text-emerald-600", btnBg: "bg-emerald-50", btnHover: "hover:bg-emerald-500 hover:text-white hover:border-emerald-500" },
+                          { bg: "bg-gradient-to-br from-blue-400 to-indigo-500", text: "text-white", border: "border-blue-200", btnText: "text-blue-600", btnBg: "bg-blue-50", btnHover: "hover:bg-blue-500 hover:text-white hover:border-blue-500" },
+                          { bg: "bg-gradient-to-br from-purple-400 to-fuchsia-500", text: "text-white", border: "border-purple-200", btnText: "text-purple-600", btnBg: "bg-purple-50", btnHover: "hover:bg-purple-500 hover:text-white hover:border-purple-500" }
                         ];
-                        const color = colors[i % colors.length];
+                        const theme = themes[i % themes.length];
 
                         return (
                           <div
                             key={c.couponid}
-                            className="relative flex items-stretch rounded-xl overflow-hidden border border-border/50 shadow-sm"
+                            className={`relative flex items-stretch rounded-2xl overflow-hidden border border-border shadow-[0_4px_14px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 transition-all duration-300 group bg-white`}
                           >
-                            {/* Left ticket notch */}
+                            {/* Left colorful ticket area */}
                             <div
-                              className={`bg-gradient-to-b ${color} flex flex-col items-center justify-center px-4 py-4 min-w-[90px]`}
+                              className={`${theme.bg} flex flex-col items-center justify-center px-4 py-5 min-w-[110px] relative z-10 border-r-2 border-dashed border-white/40`}
                             >
-                              <Tag size={16} className="text-saffron mb-1.5" />
-                              <span className="font-mono font-extrabold text-sm text-saffron-dark tracking-wider leading-none text-center">
+                              <div className="absolute -top-3 -right-3 size-6 rounded-full bg-white shadow-inner"></div>
+                              <div className="absolute -bottom-3 -right-3 size-6 rounded-full bg-white shadow-inner"></div>
+
+                              <Tag size={22} className={`${theme.text} mb-2 opacity-90 drop-shadow-sm`} />
+                              <span className={`font-mono font-black text-sm tracking-widest ${theme.text} uppercase drop-shadow-md`}>
                                 {c.couponcode}
                               </span>
                             </div>
-                            {/* Notch circles */}
-                            <div className="absolute left-[82px] -top-2 size-4 rounded-full bg-ivory border border-border/40" />
-                            <div className="absolute left-[82px] -bottom-2 size-4 rounded-full bg-ivory border border-border/40" />
-                            {/* Dashed separator */}
-                            <div className="w-px border-l-2 border-dashed border-border/60 my-3" />
-                            {/* Content */}
-                            <div className="flex-1 flex items-center justify-between px-4 py-3 bg-white">
-                              <div>
-                                <p className="text-sm font-semibold text-text-dark">
-                                  {c.type === "flat" ? `₹${parseFloat(c.value)} off` : `${parseFloat(c.value)}% off`}
+
+                            {/* Content area */}
+                            <div className="flex-1 flex items-center justify-between p-4 bg-white relative">
+                              <div className="pl-2">
+                                <p className="text-lg font-black text-text-dark flex items-center gap-2 mb-1">
+                                  {c.type === "flat" ? `₹${parseFloat(c.value)} OFF` : `${parseFloat(c.value)}% OFF`}
+                                  <span className={`text-[9px] ${theme.btnBg} ${theme.btnText} px-2 py-0.5 rounded-full uppercase font-bold tracking-widest border ${theme.border}`}>Sale</span>
                                 </p>
-                                <p className="text-xs text-text-secondary mt-0.5">
-                                  Min. order ₹{parseFloat(c.minorder)}
+                                <p className="text-xs font-medium text-text-secondary">
+                                  On min. order of ₹{parseFloat(c.minorder)}
                                 </p>
                               </div>
                               <button
                                 onClick={() => {
                                   applyCoupon(c.couponcode);
                                 }}
-                                className="ml-3 text-xs font-bold text-saffron border border-saffron/40 rounded-lg px-3 py-1.5 hover:bg-saffron hover:text-white transition-all shrink-0"
+                                className={`ml-3 text-xs font-black rounded-xl px-5 py-2.5 transition-all duration-300 shadow-sm ${theme.btnBg} ${theme.btnText} ${theme.btnHover} active:scale-95 shrink-0 uppercase tracking-wide border ${theme.border}`}
                               >
-                                APPLY
+                                Apply
                               </button>
                             </div>
                           </div>
@@ -760,9 +787,9 @@ function CheckoutFlow() {
                       size="lg"
                       className="w-2/3 h-12 rounded-xl text-base bg-success hover:bg-success/90 shadow-[0_8px_20px_-8px_rgba(65,122,80,0.5)] hover:-translate-y-0.5 transition-all"
                       onClick={handlePayment}
-                      disabled={isPlacingOrder}
+                      disabled={isPlacingOrder || isVerifyingPayment}
                     >
-                      {isPlacingOrder ? (
+                      {isPlacingOrder || isVerifyingPayment ? (
                         <>
                           <Loader2 size={16} className="mr-2 animate-spin" /> Processing...
                         </>

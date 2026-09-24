@@ -154,7 +154,7 @@ export function Header() {
       if (stored) {
         try {
           setRecentSearches(JSON.parse(stored));
-        } catch (e) {}
+        } catch (e) { }
       }
     }
   }, []);
@@ -199,20 +199,20 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full flex flex-col shadow-sm">
+      <header className="sticky top-0 z-40 w-full flex flex-col shadow-[0_2px_20px_rgba(0,0,0,0.04)] transition-all duration-300">
         {/* Top Utility Bar */}
-        <div className="bg-text-dark text-white text-xs py-2 hidden md:block">
-          <div className="w-full px-6 md:px-12 flex justify-between items-center">
+        <div className="bg-text-dark text-white/90 text-xs py-2.5 hidden md:block border-b border-white/10">
+          <div className="w-full px-6 md:px-12 flex justify-between items-center max-w-7xl mx-auto">
             <div className="flex items-center gap-6">
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2 font-medium">
                 <Phone size={14} className="text-saffron" /> +91 98765 43210
               </span>
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2 font-medium">
                 <Mail size={14} className="text-saffron" />{" "}
                 support@divinepooja.com
               </span>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5 font-medium tracking-wide">
               <Link
                 href="/faq"
                 className="hover:text-saffron transition-colors"
@@ -228,79 +228,78 @@ export function Header() {
                     setIsLoginOpen(true);
                   }
                 }}
-                className="flex items-center gap-1 hover:text-saffron transition-colors focus:outline-none"
+                className="flex items-center gap-1.5 hover:text-saffron transition-colors focus:outline-none group"
               >
-                <User size={14} /> My Account
+                <div className="bg-white/10 p-1 rounded-full group-hover:bg-saffron/20 transition-colors">
+                  <User size={12} />
+                </div>
+                My Account
               </button>
             </div>
           </div>
         </div>
 
         {/* Main Navigation */}
-        <div className="bg-white border-b border-border h-20 md:h-24">
-          <div className="w-full px-6 md:px-12 h-full flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3 relative z-50">
-              <div className="size-12 rounded-sm bg-saffron flex items-center justify-center shadow-sm">
-                <span className="text-white font-serif font-bold text-2xl">
+        <div className="bg-white/95 backdrop-blur-xl border-b border-border/40 h-20 md:h-24">
+          <div className="w-full px-6 md:px-12 h-full flex items-center justify-between max-w-7xl mx-auto">
+            <Link href="/" className="flex items-center gap-3.5 relative z-50 group">
+              <div className="size-12 rounded-xl bg-gradient-to-br from-saffron to-[#d97706] flex items-center justify-center shadow-lg shadow-saffron/30 group-hover:shadow-saffron/50 group-hover:-translate-y-0.5 transition-all duration-300">
+                <span className="text-white font-serif font-bold text-2xl drop-shadow-md">
                   ॐ
                 </span>
               </div>
               <div className="flex flex-col">
-                <span className="font-serif text-2xl font-bold text-text-dark leading-none tracking-tight">
+                <span className="font-serif text-2xl font-bold text-text-dark leading-none tracking-tight group-hover:text-saffron transition-colors duration-300">
                   DivinePooja
                 </span>
-                <span className="text-[10px] uppercase tracking-widest text-text-secondary mt-1 font-semibold">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-text-secondary mt-1 font-bold">
                   Spiritual Services
                 </span>
               </div>
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-9">
+            <nav className="hidden lg:flex items-center gap-2 bg-ivory/60 px-2 py-1.5 rounded-2xl border border-border/50">
               <Link
                 href="/"
-                className={`text-[15px] font-medium transition-colors relative group ${pathname === '/' ? 'text-saffron' : 'text-text-dark hover:text-saffron'}`}
+                className={`text-[14px] font-bold transition-all duration-300 px-5 py-2.5 rounded-xl ${pathname === '/' ? 'bg-white text-saffron shadow-sm' : 'text-text-dark hover:text-saffron hover:bg-white/60'}`}
               >
                 Home
-                <span className={`absolute -bottom-7 left-0 w-full h-0.5 bg-saffron origin-left transition-transform ${pathname === '/' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
               </Link>
               <Link
                 href="/products"
-                className={`text-[15px] font-medium transition-colors relative group flex items-center gap-1 ${pathname.startsWith('/products') ? 'text-saffron' : 'text-text-dark hover:text-saffron'}`}
+                className={`text-[14px] font-bold transition-all duration-300 px-5 py-2.5 rounded-xl ${pathname.startsWith('/products') ? 'bg-white text-saffron shadow-sm' : 'text-text-dark hover:text-saffron hover:bg-white/60'}`}
               >
                 Shop Products
-                <span className={`absolute -bottom-7 left-0 w-full h-0.5 bg-saffron origin-left transition-transform ${pathname.startsWith('/products') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
               </Link>
               <Link
                 href="/about"
-                className={`text-[15px] font-medium transition-colors relative group ${pathname === '/about' ? 'text-saffron' : 'text-text-dark hover:text-saffron'}`}
+                className={`text-[14px] font-bold transition-all duration-300 px-5 py-2.5 rounded-xl ${pathname === '/about' ? 'bg-white text-saffron shadow-sm' : 'text-text-dark hover:text-saffron hover:bg-white/60'}`}
               >
                 Our Story
-                <span className={`absolute -bottom-7 left-0 w-full h-0.5 bg-saffron origin-left transition-transform ${pathname === '/about' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
               </Link>
               <Link
                 href="/contact"
-                className={`text-[15px] font-medium transition-colors relative group ${pathname === '/contact' ? 'text-saffron' : 'text-text-dark hover:text-saffron'}`}
+                className={`text-[14px] font-bold transition-all duration-300 px-5 py-2.5 rounded-xl ${pathname === '/contact' ? 'bg-white text-saffron shadow-sm' : 'text-text-dark hover:text-saffron hover:bg-white/60'}`}
               >
                 Contact
-                <span className={`absolute -bottom-7 left-0 w-full h-0.5 bg-saffron origin-left transition-transform ${pathname === '/contact' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
               </Link>
             </nav>
 
-            <div className="hidden lg:flex items-center gap-5">
+            <div className="hidden lg:flex items-center gap-3">
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="text-text-dark hover:text-saffron transition-colors focus:outline-none"
+                className="size-11 flex items-center justify-center rounded-full bg-ivory/80 border border-border/50 text-text-dark hover:bg-saffron hover:text-white hover:border-saffron hover:shadow-lg hover:shadow-saffron/20 hover:-translate-y-0.5 transition-all duration-300 focus:outline-none"
               >
-                <Search size={20} />
+                <Search size={18} />
               </button>
-              <div className="w-px h-5 bg-border mx-1"></div>
+              
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="text-text-dark hover:text-saffron transition-colors relative"
+                className="size-11 flex items-center justify-center rounded-full bg-ivory/80 border border-border/50 text-text-dark hover:bg-saffron hover:text-white hover:border-saffron hover:shadow-lg hover:shadow-saffron/20 hover:-translate-y-0.5 transition-all duration-300 relative group"
               >
-                <ShoppingCart size={22} />
+                <ShoppingCart size={18} />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-2 bg-error text-white text-[10px] font-bold size-4 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1.5 -right-1.5 bg-text-dark group-hover:bg-white group-hover:text-saffron text-white text-[10px] font-bold min-w-[20px] h-[20px] px-1 rounded-full flex items-center justify-center shadow-md border-2 border-white transition-colors duration-300">
                     {cartCount}
                   </span>
                 )}
@@ -309,9 +308,9 @@ export function Header() {
 
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-text-dark hover:text-saffron transition-colors"
+              className="lg:hidden p-2.5 text-text-dark hover:text-saffron bg-ivory/80 border border-border/50 rounded-xl active:scale-95 transition-all duration-300"
             >
-              <Menu size={24} />
+              <Menu size={22} />
             </button>
           </div>
         </div>
@@ -548,94 +547,104 @@ export function Header() {
 
       {/* --- Login Sidebar / Slide-over --- */}
       {isLoginOpen && (
-        <div className="fixed inset-0 z-50 flex">
+        <div className="fixed inset-0 z-[100] flex justify-end">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+            className="absolute inset-0 bg-text-dark/40 backdrop-blur-md transition-all duration-500 animate-in fade-in"
             onClick={() => setIsLoginOpen(false)}
           ></div>
 
           {/* Panel */}
-          <div className="absolute top-0 right-0 h-full w-full max-w-md bg-white shadow-[0_0_50px_rgba(0,0,0,0.3)] animate-in slide-in-from-right duration-300 flex flex-col border-l border-border/50">
-            <div className="relative h-40 bg-gradient-to-br from-text-dark via-text-dark to-[#2a1f18] p-6 flex flex-col justify-between overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-saffron rounded-full blur-[100px] opacity-20 -mr-20 -mt-20 pointer-events-none"></div>
+          <div className="relative h-full w-full max-w-[420px] bg-white shadow-[-20px_0_60px_-15px_rgba(0,0,0,0.1)] animate-in slide-in-from-right duration-500 flex flex-col z-10 rounded-l-[0rem] overflow-hidden">
+            {/* Header Section */}
+            <div className="relative pt-12 pb-8 px-10 bg-gradient-to-br from-ivory to-white">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-saffron/10 rounded-full blur-[80px] -mr-20 -mt-20 pointer-events-none"></div>
 
-              <div className="flex justify-between items-start relative z-10">
-                <div className="size-10 rounded-sm bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
-                  <span className="text-saffron font-serif font-bold text-xl">ॐ</span>
+              <div className="flex justify-between items-start relative z-10 mb-8">
+                <div className="size-12 rounded-2xl bg-saffron text-white flex items-center justify-center shadow-lg shadow-saffron/30">
+                  <span className="font-serif font-bold text-2xl">ॐ</span>
                 </div>
                 <button
                   onClick={() => setIsLoginOpen(false)}
-                  className="p-2 hover:bg-white/10 rounded-full transition-colors focus:outline-none"
+                  className="p-2.5 bg-white/50 hover:bg-white text-text-secondary hover:text-text-dark rounded-full transition-all shadow-sm border border-border/30 backdrop-blur-md"
                 >
-                  <X size={20} className="text-white/80" />
+                  <X size={20} />
                 </button>
               </div>
 
               <div className="relative z-10">
-                <h2 className="text-3xl font-serif font-bold text-white drop-shadow-sm">
+                <h2 className="text-3xl font-bold text-text-dark tracking-tight mb-2">
                   {loginStep === "email" ? "Welcome Back" : "Verify OTP"}
                 </h2>
-                <p className="text-white/70 text-sm mt-1">
-                  {loginStep === "email" ? "Access your spiritual journey" : "Secure authentication"}
+                <p className="text-text-secondary text-sm font-medium">
+                  {loginStep === "email" ? "Enter your email to access your spiritual journey." : "We've sent a secure code to your email."}
                 </p>
               </div>
             </div>
 
-            <div className="p-8 flex-1 overflow-y-auto flex flex-col bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-white">
+            {/* Content Section */}
+            <div className="px-10 py-6 flex-1 overflow-y-auto flex flex-col">
               {loginStep === "email" ? (
-                <div className="space-y-6 animate-in fade-in zoom-in-95 duration-500">
-                  <div className="space-y-5">
-                    <div>
-                      <label className="block text-sm font-bold text-text-dark mb-2 uppercase tracking-wide">
-                        Email Address
-                      </label>
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
+                  <div className="space-y-2 relative group">
+                    <label className="text-xs font-bold text-text-secondary uppercase tracking-widest ml-1 transition-colors group-focus-within:text-saffron">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary/50 group-focus-within:text-saffron transition-colors">
+                        <Mail size={18} />
+                      </div>
                       <Input
-                        placeholder="Enter your email to continue"
+                        placeholder="you@example.com"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="h-14 bg-ivory-section/50 border-border/80 focus:border-saffron focus:ring-saffron/20 rounded-xl text-md"
+                        className="h-14 pl-12 bg-white border-border/50 focus:border-saffron focus:ring-4 focus:ring-saffron/10 rounded-2xl text-md transition-all shadow-sm group-hover:border-border"
                       />
                     </div>
-                    <Button
-                      size="lg"
-                      disabled={loading || !email}
-                      className="w-full h-14 text-lg rounded-xl shadow-[0_8px_20px_-8px_rgba(198,90,30,0.5)] hover:shadow-[0_12px_25px_-8px_rgba(198,90,30,0.6)] hover:-translate-y-0.5 transition-all mt-10"
-                      onClick={async () => {
-                        setLoading(true);
-                        try {
-                          await loginUser(email);
-                          setLoginStep("otp");
-                        } catch (err) {
-                          alert("Failed to send OTP");
-                        }
-                        setLoading(false);
-                      }}
-                    >
-                      {loading ? "Sending..." : "Request OTP"}
-                    </Button>
                   </div>
+                  <Button
+                    size="lg"
+                    disabled={loading || !email}
+                    className="w-full h-14 text-md font-bold rounded-2xl bg-saffron hover:bg-saffron/90 text-white shadow-lg shadow-saffron/25 hover:shadow-xl hover:shadow-saffron/30 hover:-translate-y-1 transition-all mt-8"
+                    onClick={async () => {
+                      setLoading(true);
+                      try {
+                        await loginUser(email);
+                        setLoginStep("otp");
+                      } catch (err) {
+                        alert("Failed to send OTP");
+                      }
+                      setLoading(false);
+                    }}
+                  >
+                    {loading ? "Sending OTP..." : "Continue with Email"}
+                  </Button>
                 </div>
               ) : (
                 <div className="space-y-8 animate-in fade-in slide-in-from-right-8 duration-500">
-                  <div className="bg-success/5 border border-success/20 p-5 rounded-2xl flex items-start gap-4">
-                    <div className="bg-success/20 p-2 rounded-full text-success shrink-0 mt-0.5">
-                      <Mail size={20} />
-                    </div>
-                    <div>
-                      <p className="text-sm text-text-dark font-medium leading-relaxed">
-                        We've sent a 6-digit secure code to your email.
+                  <div className="bg-saffron/5 border border-saffron/10 p-4 rounded-2xl flex items-center justify-between">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                      <div className="bg-white p-2 rounded-xl text-saffron shadow-sm shrink-0">
+                        <Mail size={18} />
+                      </div>
+                      <p className="text-sm font-medium text-text-dark truncate">
+                        {email}
                       </p>
-                      <p className="text-xs text-text-secondary mt-1">{email}</p>
                     </div>
+                    <button
+                      onClick={() => setLoginStep("email")}
+                      className="text-xs font-bold text-saffron hover:text-saffron/80 transition-colors whitespace-nowrap px-2"
+                    >
+                      Change
+                    </button>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-bold text-text-dark mb-4 text-center uppercase tracking-wider">
+                    <label className="block text-xs font-bold text-text-secondary mb-4 text-center uppercase tracking-widest">
                       Enter Security Code
                     </label>
-                    <div className="flex justify-between gap-3 max-w-[320px] mx-auto">
+                    <div className="flex justify-center gap-2 sm:gap-3">
                       {otp.map((digit, index) => (
                         <input
                           key={index}
@@ -646,7 +655,7 @@ export function Header() {
                           value={digit}
                           onChange={(e) => handleOtpChange(index, e.target.value)}
                           onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                          className="w-12 h-14 text-center text-2xl font-bold border-2 border-border/80 rounded-xl focus:border-saffron focus:ring-4 focus:ring-saffron/20 focus:outline-none bg-white transition-all shadow-sm"
+                          className="w-11 h-14 sm:w-12 sm:h-16 text-center text-2xl font-bold border-2 border-border/40 rounded-2xl focus:border-saffron focus:ring-4 focus:ring-saffron/10 focus:outline-none bg-white transition-all shadow-sm"
                         />
                       ))}
                     </div>
@@ -655,7 +664,7 @@ export function Header() {
                   <Button
                     size="lg"
                     disabled={loading || otp.join('').length < 6}
-                    className="w-full h-14 text-lg rounded-xl  shadow-[0_8px_20px_-8px_rgba(63,125,74,0.5)] hover:shadow-[0_12px_25px_-8px_rgba(63,125,74,0.6)] hover:-translate-y-0.5 transition-all mt-4"
+                    className="w-full h-14 text-md font-bold rounded-2xl bg-text-dark hover:bg-saffron text-white shadow-lg shadow-text-dark/20 hover:shadow-xl hover:shadow-text-dark/30 hover:-translate-y-1 transition-all mt-4 cursor-pointer"
                     onClick={async () => {
                       setLoading(true);
                       try {
@@ -683,37 +692,33 @@ export function Header() {
                     {loading ? "Verifying..." : "Verify & Login"}
                   </Button>
 
-                  <div className="text-center pt-2 flex flex-col gap-3">
+                  <div className="text-center pt-4">
                     <p className="text-sm text-text-secondary">Didn't receive the code? <button className="font-bold text-text-dark hover:text-saffron transition-colors">Resend Code</button></p>
-                    <button
-                      onClick={() => setLoginStep("email")}
-                      className="text-sm text-saffron font-medium hover:underline"
-                    >
-                      Use a different email
-                    </button>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="p-6 text-center text-xs text-text-secondary border-t border-border/50 bg-ivory/50">
-              By continuing, you agree to our{" "}
-              <Link
-                href="/terms"
-                onClick={() => setIsLoginOpen(false)}
-                className="underline hover:text-saffron transition-colors font-medium"
-              >
-                Terms of Service
-              </Link>{" "}
-              and{" "}
-              <Link
-                href="/privacy"
-                onClick={() => setIsLoginOpen(false)}
-                className="underline hover:text-saffron transition-colors font-medium"
-              >
-                Privacy Policy
-              </Link>
-              .
+            <div className="px-10 py-8 text-center text-xs text-text-secondary bg-ivory/30">
+              <p>
+                By continuing, you agree to our{" "}
+                <Link
+                  href="/terms"
+                  onClick={() => setIsLoginOpen(false)}
+                  className="font-bold text-text-dark hover:text-saffron transition-colors"
+                >
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/privacy"
+                  onClick={() => setIsLoginOpen(false)}
+                  className="font-bold text-text-dark hover:text-saffron transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+                .
+              </p>
             </div>
           </div>
         </div>

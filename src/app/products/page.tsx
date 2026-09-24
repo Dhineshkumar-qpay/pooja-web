@@ -11,27 +11,34 @@ export default async function ProductsPage() {
     <>
       <Header />
       <main className="flex-1 bg-ivory pb-20">
-        <div className="w-full border-b border-border shadow-sm min-h-[200px] lg:min-h-[250px] flex items-center relative overflow-hidden mb-12">
-          {/* Background Image */}
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1590059530510-188b77a7df84?w=1920&q=80')] bg-cover bg-center bg-no-repeat z-0"></div>
+        <div className="w-full border-b border-border/50 shadow-lg min-h-[250px] lg:min-h-[320px] flex items-center relative overflow-hidden mb-12 bg-text-dark group">
+          {/* Background Image with smooth scale */}
+          <div
+            className="absolute inset-0 z-0 scale-105 bg-cover bg-center bg-no-repeat transition-transform duration-[15000ms] ease-out group-hover:scale-110"
+            style={{ backgroundImage: "url('/product-bg.jpeg')" }}
+          ></div>
 
-          {/* Glass Overlay */}
-          <div className="absolute inset-0 bg-white/75 backdrop-blur-md z-0"></div>
+          {/* Elegant Dark Glass Overlay for premium feel */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/80 backdrop-blur-[2px] z-0"></div>
 
-          {/* Subtle corporate background pattern/shapes */}
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-saffron/10 skew-x-12 translate-x-16 z-0 mix-blend-multiply"></div>
-          <div className="absolute top-0 right-0 w-1/4 h-full bg-saffron/20 skew-x-12 translate-x-24 z-0 mix-blend-multiply"></div>
+          {/* Vibrant background shapes */}
+          <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-saffron/30 rounded-full blur-[100px] z-0 mix-blend-screen animate-pulse pointer-events-none"></div>
+          <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-gold/20 rounded-full blur-[100px] z-0 mix-blend-screen pointer-events-none" style={{ animationDelay: '2s' }}></div>
 
-          <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
-            <div className="max-w-3xl mx-auto">
-              <div className="inline-block px-3 py-1 mb-4 rounded bg-saffron/10 text-saffron font-semibold text-sm tracking-widest uppercase">
+          <div className="container mx-auto px-6 md:px-12 relative z-10 text-center flex flex-col items-center justify-center">
+            <div className="max-w-3xl mx-auto transform transition-all duration-700 translate-y-0 opacity-100">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold-light font-medium text-xs sm:text-sm tracking-widest uppercase shadow-xl hover:bg-white/20 transition-colors cursor-default">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-saffron opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-saffron"></span>
+                </span>
                 Divine Collection
               </div>
-              <h1 className="text-4xl lg:text-5xl font-serif font-bold text-text-dark mb-4 tracking-tight">
-                Shop Sacred Pooja Items
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white mb-6 tracking-tight drop-shadow-2xl">
+                Shop <span className="text-transparent bg-clip-text bg-gradient-to-r from-saffron to-gold">Sacred Pooja</span> Items
               </h1>
-              <p className="text-lg text-text-secondary leading-relaxed">
-                Authentic, premium quality spiritual products for your daily rituals and special occasions.
+              <p className="text-lg md:text-xl text-gray-200 leading-relaxed font-light drop-shadow-md">
+                Authentic, premium quality spiritual products curated for your daily rituals, meditation, and special occasions.
               </p>
             </div>
           </div>
