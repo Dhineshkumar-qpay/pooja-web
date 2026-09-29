@@ -17,18 +17,18 @@ export async function FeaturedProducts() {
   return (
     <section className="py-20 bg-ivory-section">
       <div className="w-full px-6 md:px-12">
-        <SectionHeading 
-          title="Featured Products" 
-          subtitle="Explore our most loved spiritual items, highly rated by devotees across the country."
+        <SectionHeading
+          title="Featured Products"
+          subtitle="Explore our most loved spiritual items, highly rated by customers across the country."
           centered
         />
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
           {displayFeatured.map((product) => (
             <Card key={product.productid} className="relative flex flex-col cursor-pointer overflow-hidden border-border/40 hover:border-saffron/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
               <div className="relative h-64 w-full overflow-hidden bg-ivory-section">
-                <img 
-                  src={`${IMAGE_BASE_URL}${product.thumbnailimage}`} 
+                <img
+                  src={`${IMAGE_BASE_URL}${product.thumbnailimage}`}
                   alt={product.productname}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -55,7 +55,7 @@ export async function FeaturedProducts() {
                 <p className="text-sm text-text-secondary line-clamp-2 mb-5 flex-1 leading-relaxed">
                   {product.description}
                 </p>
-                
+
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-border/50">
                   <div className="flex flex-col">
                     <div className="flex items-center font-bold text-xl text-text-dark">
@@ -74,7 +74,7 @@ export async function FeaturedProducts() {
             </Card>
           ))}
         </div>
-        
+
         <div className="mt-12 text-center">
           <Link href="/products">
             <Button size="lg" variant="outline" className="px-8">

@@ -246,22 +246,22 @@ export default function OrderDetailPage({
       y,
     );
     y += 7;
-    
+
     if (order.discountprice && parseFloat(order.discountprice) > 0) {
       doc.text(
-        `Coupon ${order.couponcode ? `(${order.couponcode})` : ''}: -Rs. ${parseFloat(order.discountprice)}`,
+        `Coupon ${order.couponcode ? `(${order.couponcode})` : ""}: -Rs. ${parseFloat(order.discountprice)}`,
         140,
         y,
       );
       y += 7;
     }
-    
+
     doc.text(
       `Shipping: ${order.shippingprice === 0 ? "FREE" : "Rs. " + order.shippingprice}`,
       140,
       y,
     );
-    
+
     y += 8;
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
@@ -446,17 +446,24 @@ export default function OrderDetailPage({
                     <div className="flex justify-between text-text-secondary">
                       <span>Subtotal</span>
                       <span className="font-medium text-text-dark">
-                        ₹{order.subtotal ? parseFloat(order.subtotal) : order.totalamount - order.shippingprice}
+                        ₹
+                        {order.subtotal
+                          ? parseFloat(order.subtotal)
+                          : order.totalamount - order.shippingprice}
                       </span>
                     </div>
-                    {order.discountprice && parseFloat(order.discountprice) > 0 && (
-                      <div className="flex justify-between text-success">
-                        <span>Coupon {order.couponcode ? `(${order.couponcode})` : ""}</span>
-                        <span className="font-medium">
-                          −₹{parseFloat(order.discountprice)}
-                        </span>
-                      </div>
-                    )}
+                    {order.discountprice &&
+                      parseFloat(order.discountprice) > 0 && (
+                        <div className="flex justify-between text-success">
+                          <span>
+                            Coupon{" "}
+                            {order.couponcode ? `(${order.couponcode})` : ""}
+                          </span>
+                          <span className="font-medium">
+                            −₹{parseFloat(order.discountprice)}
+                          </span>
+                        </div>
+                      )}
                     <div className="flex justify-between text-text-secondary">
                       <span>Delivery</span>
                       <span className="font-medium text-success">

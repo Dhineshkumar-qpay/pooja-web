@@ -15,7 +15,7 @@ export default function ShippingPolicyPage() {
           {/* Subtle corporate background pattern/shapes */}
           <div className="absolute top-0 right-0 w-1/3 h-full bg-saffron/10 skew-x-12 translate-x-16 z-0 mix-blend-multiply"></div>
           <div className="absolute top-0 right-0 w-1/4 h-full bg-saffron/20 skew-x-12 translate-x-24 z-0 mix-blend-multiply"></div>
-          
+
           <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl lg:text-5xl font-serif font-bold text-text-dark mb-4 tracking-tight">
@@ -31,7 +31,7 @@ export default function ShippingPolicyPage() {
         <div className="container mx-auto px-6 md:px-12 max-w-4xl">
           <Card className="border border-border/60 shadow-lg rounded-[2rem] overflow-hidden bg-white/80 backdrop-blur-sm p-8 md:p-12">
             <CardContent className="space-y-8 p-0">
-              
+
               <div className="flex gap-4">
                 <div className="size-12 rounded-full bg-saffron/10 flex items-center justify-center shrink-0">
                   <Clock size={24} className="text-saffron" />
@@ -77,7 +77,7 @@ export default function ShippingPolicyPage() {
                 <div>
                   <h2 className="text-2xl font-serif font-bold text-text-dark mb-3">International Shipping</h2>
                   <p className="text-text-secondary leading-relaxed">
-                    Currently, we ship only within India. We do not offer international shipping at this time, but we are actively working on expanding our services globally to serve devotees worldwide.
+                    Currently, we ship only within India. We do not offer international shipping at this time, but we are actively working on expanding our services globally to serve customers worldwide.
                   </p>
                 </div>
               </div>

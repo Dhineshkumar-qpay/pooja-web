@@ -80,7 +80,7 @@ export default function AboutPage() {
                 Our Story
               </h1>
               <p className="text-lg text-text-secondary leading-relaxed">
-                Preserving ancient Vedic traditions by making authentic spiritual products accessible to devotees worldwide.
+                Preserving ancient Vedic traditions by making authentic spiritual products accessible to customers worldwide.
               </p>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function AboutPage() {
                 For years, finding genuine, high-quality pooja materials and authentic idols was a challenge for many families living in urban areas. We created this platform to bring curated, energized, and ethically sourced spiritual products directly to you.
               </p>
               <p className="text-text-secondary leading-relaxed mb-8">
-                Today, we have served thousands of devotees, ensuring that every significant life event and daily ritual is blessed with the purest materials.
+                Today, we have served thousands of customers, ensuring that every significant life event and daily ritual is blessed with the purest materials.
               </p>
               <Link href="/products">
                 <Button>Explore Our Products</Button>

@@ -15,14 +15,14 @@ export async function Testimonials() {
     <section className="py-16 bg-ivory-section">
       <div className="w-full px-6 md:px-12">
         <SectionHeading
-          title="What Our Devotees Say"
+          title="What Our Customers Say"
           subtitle="Read experiences from people who have trusted us with their spiritual journeys."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto px-4">
           {testimonials.map(testimonial => (
-            <Card 
-              key={testimonial.testimonialid} 
+            <Card
+              key={testimonial.testimonialid}
               className="relative overflow-hidden bg-white border border-border/40 shadow-sm hover:shadow-xl hover:border-saffron/30 transition-all duration-500 transform hover:-translate-y-1 group rounded-[1.5rem]"
             >
               <div className="absolute -top-4 -right-4 text-saffron/5 group-hover:text-saffron/10 transition-colors duration-500 transform -scale-x-100">

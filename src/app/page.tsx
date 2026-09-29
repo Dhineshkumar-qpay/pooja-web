@@ -18,14 +18,14 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <ServiceStrip />
-        <TrustSection />
         <Categories />
         <FeaturedProducts />
         <HowItWorks />
         <NewArrivals />
         <BannersSection />
-        <Testimonials />
+        <TrustSection />
         <CTASection />
+        <Testimonials />
       </main>
       <Footer />
     </>

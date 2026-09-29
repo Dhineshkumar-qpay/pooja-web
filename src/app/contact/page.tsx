@@ -15,15 +15,17 @@ export default function ContactPage() {
     email: "",
     phone: "",
     subject: "",
-    message: ""
+    message: "",
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -48,14 +50,14 @@ export default function ContactPage() {
         <div className="w-full border-b border-border shadow-sm min-h-[200px] lg:min-h-[250px] flex items-center relative overflow-hidden mb-12">
           {/* Background Image */}
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1590059530510-188b77a7df84?w=1920&q=80')] bg-cover bg-center bg-no-repeat z-0"></div>
-          
+
           {/* Glass Overlay */}
           <div className="absolute inset-0 bg-white/75 backdrop-blur-md z-0"></div>
 
           {/* Subtle corporate background pattern/shapes */}
           <div className="absolute top-0 right-0 w-1/3 h-full bg-saffron/10 skew-x-12 translate-x-16 z-0 mix-blend-multiply"></div>
           <div className="absolute top-0 right-0 w-1/4 h-full bg-saffron/20 skew-x-12 translate-x-24 z-0 mix-blend-multiply"></div>
-          
+
           <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
             <div className="max-w-3xl mx-auto">
               <div className="inline-block px-3 py-1 mb-4 rounded bg-saffron/10 text-saffron font-semibold text-sm tracking-widest uppercase">
@@ -65,7 +67,8 @@ export default function ContactPage() {
                 Contact Us
               </h1>
               <p className="text-lg text-text-secondary leading-relaxed">
-                Have a question about a pooja or need assistance with your booking? We are here to help you on your spiritual journey.
+                Have a question about a pooja or need assistance with your
+                booking? We are here to help you on your spiritual journey.
               </p>
             </div>
           </div>
@@ -86,10 +89,7 @@ export default function ContactPage() {
                 </div>
                 <CardContent className="p-8 flex items-start gap-5 relative z-10">
                   <div className="size-14 rounded-2xl bg-gradient-to-br from-saffron to-saffron-dark group-hover:scale-110 flex items-center justify-center shrink-0 transition-transform duration-500 shadow-lg shadow-saffron/20 -rotate-3 group-hover:rotate-0">
-                    <Phone
-                      className="text-white"
-                      size={22}
-                    />
+                    <Phone className="text-white" size={22} />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold font-serif text-text-dark mb-2 tracking-tight">
@@ -111,10 +111,7 @@ export default function ContactPage() {
                 </div>
                 <CardContent className="p-8 flex items-start gap-5 relative z-10">
                   <div className="size-14 rounded-2xl bg-gradient-to-br from-gold to-[#c79122] group-hover:scale-110 flex items-center justify-center shrink-0 transition-transform duration-500 shadow-lg shadow-gold/20 -rotate-3 group-hover:rotate-0">
-                    <Mail
-                      className="text-white"
-                      size={22}
-                    />
+                    <Mail className="text-white" size={22} />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold font-serif text-text-dark mb-2 tracking-tight">
@@ -136,10 +133,7 @@ export default function ContactPage() {
                 </div>
                 <CardContent className="p-8 flex items-start gap-5 relative z-10">
                   <div className="size-14 rounded-2xl bg-gradient-to-br from-success to-emerald-700 group-hover:scale-110 flex items-center justify-center shrink-0 transition-transform duration-500 shadow-lg shadow-success/20 -rotate-3 group-hover:rotate-0">
-                    <MapPin
-                      className="text-white"
-                      size={22}
-                    />
+                    <MapPin className="text-white" size={22} />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold font-serif text-text-dark mb-2 tracking-tight">
@@ -153,28 +147,6 @@ export default function ContactPage() {
                   </div>
                 </CardContent>
               </Card>
-
-              <Card className="border border-border/40 bg-white/60 backdrop-blur-md shadow-sm hover:shadow-2xl hover:-translate-y-1 hover:border-text-dark/40 transition-all duration-500 group rounded-[2rem] overflow-hidden relative">
-                <div className="absolute -top-6 -right-6 text-text-dark/5 group-hover:text-text-dark/10 transition-colors duration-500 transform -scale-x-100">
-                  <Clock size={140} />
-                </div>
-                <CardContent className="p-8 flex items-start gap-5 relative z-10">
-                  <div className="size-14 rounded-2xl bg-gradient-to-br from-text-dark to-gray-800 group-hover:scale-110 flex items-center justify-center shrink-0 transition-transform duration-500 shadow-lg shadow-text-dark/20 -rotate-3 group-hover:rotate-0">
-                    <Clock
-                      className="text-white"
-                      size={22}
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold font-serif text-text-dark mb-2 tracking-tight">
-                      Working Hours
-                    </h3>
-                    <p className="text-text-secondary text-[15px]">
-                      Mon - Sun: 8:00 AM - 8:00 PM
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
 
             {/* Contact Form */}
@@ -183,7 +155,7 @@ export default function ContactPage() {
                 <CardContent className="p-8 md:p-12 h-full flex flex-col">
                   <div className="flex items-center gap-3 mb-10">
                     <div className="size-12 rounded-2xl bg-saffron/10 text-saffron flex items-center justify-center shrink-0">
-                       <Mail size={24} />
+                      <Mail size={24} />
                     </div>
                     <h2 className="text-3xl font-serif font-bold text-text-dark tracking-tight">
                       Send us a message
@@ -195,12 +167,26 @@ export default function ContactPage() {
                       <div className="size-24 rounded-full bg-success/10 text-success flex items-center justify-center mx-auto mb-6">
                         <CheckCircle2 size={48} />
                       </div>
-                      <h3 className="text-3xl font-bold text-text-dark mb-3 font-serif">Message Sent!</h3>
-                      <p className="text-text-secondary text-[17px] max-w-sm">Thank you for reaching out. We will get back to you shortly.</p>
-                      <Button variant="outline" className="mt-8 px-8 py-6 rounded-2xl font-bold" onClick={() => setSubmitted(false)}>Send Another Message</Button>
+                      <h3 className="text-3xl font-bold text-text-dark mb-3 font-serif">
+                        Message Sent!
+                      </h3>
+                      <p className="text-text-secondary text-[17px] max-w-sm">
+                        Thank you for reaching out. We will get back to you
+                        shortly.
+                      </p>
+                      <Button
+                        variant="outline"
+                        className="mt-8 px-8 py-6 rounded-2xl font-bold"
+                        onClick={() => setSubmitted(false)}
+                      >
+                        Send Another Message
+                      </Button>
                     </div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="space-y-8 flex-1 flex flex-col">
+                    <form
+                      onSubmit={handleSubmit}
+                      className="space-y-8 flex-1 flex flex-col"
+                    >
                       {error && (
                         <div className="bg-error/10 text-error p-4 rounded-2xl text-sm mb-6 text-center font-medium border border-error/20">
                           {error}
@@ -315,8 +301,8 @@ export default function ContactPage() {
                   </span>
                 </div>
                 <p className="text-xs text-text-secondary leading-relaxed">
-                  16, Indira Gandhi St, EB Officer's Colony, Surampatti
-                  Valasu, Veerappanchatram, <br />
+                  16, Indira Gandhi St, EB Officer's Colony, Surampatti Valasu,
+                  Veerappanchatram, <br />
                   Erode, Tamil Nadu 638011
                 </p>
                 <a
