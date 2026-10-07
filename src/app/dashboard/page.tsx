@@ -32,7 +32,7 @@ const getStatusIcon = (status: string) => {
     default: return <Package size={16} />;
   }
 };
-import { getAddresses, addAddress, editAddress, deleteAddress, ApiAddress, getUserOrders, ApiOrder, IMAGE_BASE_URL, addToCart, buyAgain, getFavourites, removeFavourite, ApiFavourite } from '@/lib/api';
+import { getAddresses, addAddress, editAddress, deleteAddress, ApiAddress, getUserOrders, ApiOrder, IMAGE_BASE_URL, addToCart, buyAgain, getFavourites, removeFavourite, ApiFavourite, getProfile, updateProfile } from '@/lib/api';
 
 declare global {
   interface Window {
@@ -41,7 +41,8 @@ declare global {
 }
 
 export default function DashboardPage() {
-  const [activeTab, setActiveTab] = useState<'orders' | 'addresses' | 'wishlist'>('orders');
+  const [activeTab, setActiveTab] = useState<'profile' | 'orders' | 'addresses' | 'wishlist'>('profile');
+  const [profileForm, setProfileForm] = useState({ name: '', email: '', mobile: '' });
   const [showAddressForm, setShowAddressForm] = useState(false);
 
   const [addresses, setAddresses] = useState<ApiAddress[]>([]);
@@ -57,6 +58,7 @@ export default function DashboardPage() {
   const [addressForm, setAddressForm] = useState({
     firstname: '',
     lastname: '',
+    email: '',
     phone: '',
     addressline1: '',
     addressline2: '',
@@ -87,11 +89,62 @@ export default function DashboardPage() {
     setLoadingFavourites(false);
   };
 
+  const fetchProfileData = async () => {
+    const res = await getProfile();
+    if (res && res.status === 200 && res.data) {
+      setProfileForm({
+        name: res.data.name || '',
+        email: res.data.email || '',
+        mobile: res.data.mobile || ''
+      });
+      // Optionally update localStorage to keep it fresh
+      localStorage.setItem('user', JSON.stringify(res.data));
+    } else {
+      // Fallback to localStorage if API fails or token is missing
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          setProfileForm({
+            name: user.name || user.firstname || 'User',
+            email: user.email || '',
+            mobile: user.mobile || user.phone || ''
+          });
+        } catch (e) {}
+      }
+    }
+  };
+
   useEffect(() => {
     fetchAddresses();
     fetchOrders();
     fetchFavourites();
+    fetchProfileData();
   }, []);
+
+  const handleProfileSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await updateProfile({
+      name: profileForm.name,
+      mobile: profileForm.mobile
+    });
+
+    if (res && res.status === 200) {
+      alert("Profile updated successfully!");
+      // Update local storage to match the new profile data
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          user.name = profileForm.name;
+          user.mobile = profileForm.mobile;
+          localStorage.setItem('user', JSON.stringify(user));
+        } catch (e) {}
+      }
+    } else {
+      alert("Failed to update profile. Please try again.");
+    }
+  };
 
   const handleBuyAgain = async (order: ApiOrder) => {
     try {
@@ -143,6 +196,7 @@ export default function DashboardPage() {
     setAddressForm({
       firstname: addr.firstname,
       lastname: addr.lastname,
+      email: addr.email || '',
       phone: addr.phone,
       addressline1: addr.addressline1,
       addressline2: addr.addressline2 || '',
@@ -196,6 +250,12 @@ export default function DashboardPage() {
                   </div>
                   <nav className="flex flex-col py-2">
                     <button
+                      onClick={() => setActiveTab('profile')}
+                      className={`flex items-center gap-3 px-6 py-4 text-left transition-colors ${activeTab === 'profile' ? 'text-saffron font-medium bg-saffron/5 border-l-2 border-saffron' : 'text-text-secondary hover:text-saffron hover:bg-ivory-section'}`}
+                    >
+                      <Edit2 size={18} /> Edit Profile
+                    </button>
+                    <button
                       onClick={() => setActiveTab('orders')}
                       className={`flex items-center gap-3 px-6 py-4 text-left transition-colors ${activeTab === 'orders' ? 'text-saffron font-medium bg-saffron/5 border-l-2 border-saffron' : 'text-text-secondary hover:text-saffron hover:bg-ivory-section'}`}
                     >
@@ -223,6 +283,51 @@ export default function DashboardPage() {
 
             {/* Content Area */}
             <div className="lg:w-3/4">
+
+              {/* --- Profile Tab --- */}
+              {activeTab === 'profile' && (
+                <div className="space-y-6 animate-in fade-in duration-300">
+                  <h2 className="text-2xl font-serif font-bold text-text-dark mb-6 flex items-center gap-2">
+                    <Edit2 size={24} className="text-saffron" /> Edit Profile
+                  </h2>
+                  <Card className="shadow-sm border border-border/40 bg-white">
+                    <CardContent className="p-6 md:p-8">
+                      <form className="space-y-6" onSubmit={handleProfileSave}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <label className="text-sm font-semibold text-text-dark">Full Name</label>
+                            <Input 
+                              placeholder="Enter your full name" 
+                              value={profileForm.name}
+                              onChange={(e) => setProfileForm({...profileForm, name: e.target.value})}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-sm font-semibold text-text-dark">Email Address</label>
+                            <Input 
+                              value={profileForm.email} 
+                              readOnly 
+                              className="bg-gray-50 text-gray-500 cursor-not-allowed focus-visible:ring-0" 
+                            />
+                            <p className="text-xs text-text-secondary">Email address cannot be changed.</p>
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-sm font-semibold text-text-dark">Mobile Number</label>
+                            <Input 
+                              placeholder="Enter your mobile number" 
+                              value={profileForm.mobile}
+                              onChange={(e) => setProfileForm({...profileForm, mobile: e.target.value})}
+                            />
+                          </div>
+                        </div>
+                        <div className="pt-4 border-t border-border/40 flex justify-end">
+                          <Button type="submit" className="w-full sm:w-auto font-bold px-8 bg-saffron hover:bg-saffron-dark text-white">Save Changes</Button>
+                        </div>
+                      </form>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
 
               {/* --- Orders Tab --- */}
               {activeTab === 'orders' && (
@@ -334,13 +439,22 @@ export default function DashboardPage() {
                               onChange={(e) => setAddressForm({ ...addressForm, lastname: e.target.value })}
                             />
                           </div>
-                          <div className="md:col-span-2">
+                          <div>
                             <label className="block text-sm font-semibold text-text-dark mb-1.5">Phone Number</label>
                             <Input
                               placeholder="9876543210"
                               className="bg-ivory-section"
                               value={addressForm.phone}
                               onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })}
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-semibold text-text-dark mb-1.5">Email Address</label>
+                            <Input
+                              placeholder="you@example.com"
+                              className="bg-ivory-section"
+                              value={addressForm.email}
+                              onChange={(e) => setAddressForm({ ...addressForm, email: e.target.value })}
                             />
                           </div>
                           <div className="md:col-span-2">
@@ -411,7 +525,8 @@ export default function DashboardPage() {
                                 {addr.addressline2 && <>{addr.addressline2}<br /></>}
                                 {addr.city}, {addr.state} {addr.pincode}<br />
                                 {addr.country}<br />
-                                Phone: {addr.phone}
+                                Phone: {addr.phone}<br />
+                                {addr.email && <>Email: {addr.email}</>}
                               </p>
                               <div className="flex gap-4 pt-4 border-t border-border/50">
                                 <button onClick={() => handleEditClick(addr)} className="text-sm font-medium text-saffron flex items-center gap-1 hover:underline">

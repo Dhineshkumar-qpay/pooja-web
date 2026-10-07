@@ -231,6 +231,24 @@ function CheckoutFlow() {
     rzp.open();
   }
 
+  // ── Empty Cart Early Return ──────────────────────────────────
+  if (!loadingCart && (!cart || !cart.cartItems || cart.cartItems.length === 0)) {
+    return (
+      <div className="max-w-3xl mx-auto py-32 px-6 text-center animate-in fade-in duration-500">
+        <div className="size-24 bg-saffron/10 text-saffron rounded-full flex items-center justify-center mx-auto mb-6">
+          <Package size={40} />
+        </div>
+        <h2 className="text-3xl font-serif font-bold text-text-dark mb-4">Your Cart is Empty</h2>
+        <p className="text-text-secondary mb-8 text-lg">You haven't added any products to your cart yet.</p>
+        <Link href="/products">
+          <Button size="lg" className="bg-saffron hover:bg-saffron-dark text-white h-12 px-8 rounded-xl shadow-md hover:-translate-y-1 transition-all">
+            Browse Products
+          </Button>
+        </Link>
+      </div>
+    );
+  }
+
   // ── Confirmation ──────────────────────────────────────────────
   if (step === 3) {
     return (
@@ -401,7 +419,7 @@ function CheckoutFlow() {
                               setForm({
                                 firstName: addr.firstname,
                                 lastName: addr.lastname,
-                                email: "",
+                                email: addr.email || "",
                                 phone: addr.phone,
                                 address1: addr.addressline1,
                                 address2: addr.addressline2 || "",
@@ -423,6 +441,12 @@ function CheckoutFlow() {
                                 {addr.city}, {addr.state} {addr.pincode}
                                 <br />
                                 Phone: {addr.phone}
+                                {addr.email && (
+                                  <>
+                                    <br />
+                                    Email: {addr.email}
+                                  </>
+                                )}
                               </p>
                             </div>
                             <div className="mt-4 text-saffron text-sm font-bold flex items-center gap-1">

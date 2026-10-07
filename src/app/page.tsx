@@ -4,6 +4,7 @@ import { Hero } from "@/components/home/Hero";
 import { ServiceStrip } from "@/components/home/ServiceStrip";
 import { TrustSection } from "@/components/home/TrustSection";
 import { Categories } from "@/components/home/Categories";
+import { ShopByDeity } from "@/components/home/ShopByDeity";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { NewArrivals } from "@/components/home/NewArrivals";
 import { HowItWorks } from "@/components/home/HowItWorks";
@@ -19,6 +20,7 @@ export default function Home() {
         <Hero />
         <ServiceStrip />
         <Categories />
+        <ShopByDeity />
         <FeaturedProducts />
         <HowItWorks />
         <NewArrivals />

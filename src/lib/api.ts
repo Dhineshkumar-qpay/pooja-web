@@ -11,6 +11,8 @@ export const API_ENDPOINTS = {
   auth: {
     login: "/auth/login",
     verify: "/auth/verify",
+    profile: "/auth/profile",
+    updateProfile: "/auth/update-profile",
   },
   category: {
     get: "/category/get",
@@ -340,6 +342,7 @@ export interface ApiAddress {
   userid: string;
   firstname: string;
   lastname: string;
+  email: string;
   phone: string;
   addressline1: string;
   addressline2: string;
@@ -608,5 +611,25 @@ export async function getFavourites(): Promise<ApiFavourite[]> {
   } catch (error) {
     console.error("Error fetching favourites:", error);
     return [];
+  }
+}
+
+export async function getProfile(): Promise<any> {
+  try {
+    const response = await apiClient.post(API_ENDPOINTS.auth.profile);
+    return response;
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    return null;
+  }
+}
+
+export async function updateProfile(body: { name: string; mobile: string }): Promise<any> {
+  try {
+    const response = await apiClient.post(API_ENDPOINTS.auth.updateProfile, body);
+    return response;
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return null;
   }
 }

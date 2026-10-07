@@ -11,14 +11,20 @@ import { AddToCartButton } from '@/components/ui/AddToCartButton';
 
 interface ProductClientProps {
   categories: ApiCategory[];
+  initialCategory?: string;
 }
 
-export function ProductClient({ categories }: ProductClientProps) {
+export function ProductClient({ categories, initialCategory = '' }: ProductClientProps) {
   const [products, setProducts] = useState<ApiProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Filters state
-  const [categoryid, setCategoryid] = useState<string>('');
+  const [categoryid, setCategoryid] = useState<string>(initialCategory);
+  
+  useEffect(() => {
+    setCategoryid(initialCategory);
+  }, [initialCategory]);
+
   const [price, setPrice] = useState<string>('');
   const [sort, setSort] = useState<string>('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -42,8 +48,8 @@ export function ProductClient({ categories }: ProductClientProps) {
     <div className="w-full px-6 md:px-12 mt-8 flex flex-col md:flex-row gap-8">
       {/* Mobile Filter Toggle */}
       <div className="md:hidden flex justify-between items-center mb-2">
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           onClick={() => setIsFilterOpen(!isFilterOpen)}
           className="flex items-center gap-2 w-full justify-center"
         >

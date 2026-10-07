@@ -78,7 +78,7 @@ export async function NewArrivals() {
         </div>
         
         <div className="mt-12 text-center">
-          <Link href="/products">
+          <Link href="/new-arrivals">
             <Button size="lg" variant="outline" className="px-8">
               View All Arrivals
             </Button>

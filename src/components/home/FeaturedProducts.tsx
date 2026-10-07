@@ -76,7 +76,7 @@ export async function FeaturedProducts() {
         </div>
 
         <div className="mt-12 text-center">
-          <Link href="/products">
+          <Link href="/featured">
             <Button size="lg" variant="outline" className="px-8">
               View All Products
             </Button>

@@ -16,6 +16,7 @@ import {
   IndianRupee,
   ArrowRight,
   Trash2,
+  ChevronDown,
 } from "lucide-react";
 import {
   loginUser,
@@ -26,8 +27,10 @@ import {
   decreaseCartItem,
   deleteCartItem,
   searchProducts,
+  fetchCategories,
   ApiCartResponse,
   ApiProduct,
+  ApiCategory,
   IMAGE_BASE_URL,
 } from "@/lib/api";
 
@@ -55,6 +58,19 @@ export function Header() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartData, setCartData] = useState<ApiCartResponse | null>(null);
   const [loadingCart, setLoadingCart] = useState(false);
+  const [categories, setCategories] = useState<ApiCategory[]>([]);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const data = await fetchCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error("Failed to load categories:", error);
+      }
+    };
+    loadCategories();
+  }, []);
 
   const fetchCartCount = async () => {
     if (typeof window !== 'undefined' && localStorage.getItem('token')) {
@@ -265,6 +281,44 @@ export function Header() {
               >
                 Home
               </Link>
+              
+              <div className="relative group">
+                <button
+                  className={`text-[14px] font-bold transition-all duration-300 px-5 py-2.5 rounded-xl flex items-center gap-1.5 text-text-dark hover:text-saffron hover:bg-white/60`}
+                >
+                  Categories <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300 text-text-secondary group-hover:text-saffron" />
+                </button>
+                <div className="absolute top-full left-0 mt-3 w-[420px] bg-white rounded-2xl shadow-2xl border border-border/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform origin-top-left group-hover:translate-y-0 translate-y-3">
+                  <div className="absolute -top-2 left-10 size-4 bg-white border-l border-t border-border/20 rotate-45 rounded-sm"></div>
+                  <div className="p-4 grid grid-cols-2 gap-2 relative z-10 bg-white rounded-2xl overflow-hidden">
+                    {categories.length > 0 ? (
+                      categories.map(category => (
+                        <Link
+                          key={category.categoryid}
+                          href={`/products?category=${category.categoryid}`}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-ivory-section group/item transition-all"
+                        >
+                          {category.thumbnailimage ? (
+                            <div className="size-12 rounded-lg overflow-hidden bg-ivory shrink-0 border border-border/50 group-hover/item:border-saffron/30">
+                              <img src={`${IMAGE_BASE_URL}${category.thumbnailimage}`} alt={category.categoryname} className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500" />
+                            </div>
+                          ) : (
+                            <div className="size-12 rounded-lg bg-ivory shrink-0 flex items-center justify-center text-saffron border border-border/50 shadow-inner">
+                              <span className="font-serif font-bold text-lg">{category.categoryname.charAt(0)}</span>
+                            </div>
+                          )}
+                          <div>
+                            <h4 className="text-sm font-bold text-text-dark group-hover/item:text-saffron transition-colors line-clamp-1">{category.categoryname}</h4>
+                            <p className="text-xs text-text-secondary mt-0.5">{category.productcount || 0} Products</p>
+                          </div>
+                        </Link>
+                      ))
+                    ) : (
+                      <div className="col-span-2 py-8 text-center text-sm text-text-secondary">Loading categories...</div>
+                    )}
+                  </div>
+                </div>
+              </div>
               <Link
                 href="/products"
                 className={`text-[14px] font-bold transition-all duration-300 px-5 py-2.5 rounded-xl ${pathname.startsWith('/products') ? 'bg-white text-saffron shadow-sm' : 'text-text-dark hover:text-saffron hover:bg-white/60'}`}

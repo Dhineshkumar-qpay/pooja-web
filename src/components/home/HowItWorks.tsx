@@ -37,7 +37,7 @@ export function HowItWorks() {
         style={{ backgroundImage: "url('why.jpeg')" }}
       />
       {/* Dark overlay for better text contrast */}
-      <div className="absolute inset-0 z-[1] bg-black/40" />
+      <div className="absolute inset-0 z-[1] bg-black/20" />
 
       {/* Decorative Orbs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-saffron/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />

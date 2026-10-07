@@ -4,8 +4,21 @@ import { Footer } from '@/components/layout/Footer';
 import { fetchCategories } from '@/lib/api';
 import { ProductClient } from './ProductClient';
 
-export default async function ProductsPage() {
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const categories = await fetchCategories();
+  
+  const resolvedParams = await searchParams;
+  let initialCategory = '';
+  
+  if (resolvedParams?.category) {
+    initialCategory = Array.isArray(resolvedParams.category) 
+      ? resolvedParams.category[0] 
+      : resolvedParams.category;
+  }
 
   return (
     <>
@@ -44,7 +57,7 @@ export default async function ProductsPage() {
           </div>
         </div>
 
-        <ProductClient categories={categories} />
+        <ProductClient categories={categories} initialCategory={initialCategory} />
       </main>
       <Footer />
     </>
