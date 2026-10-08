@@ -1,4 +1,3 @@
-import React from 'react';
 import { Flame, ShieldCheck, CalendarClock, HeartHandshake } from 'lucide-react';
 
 export function TrustSection() {

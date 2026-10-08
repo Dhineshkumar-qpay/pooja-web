@@ -1,5 +1,3 @@
-import React from "react";
-import { ShieldCheck, Truck, Star, HeartHandshake } from "lucide-react";
 
 const steps = [
   {

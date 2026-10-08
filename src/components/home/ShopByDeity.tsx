@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { SectionHeading } from '../ui/SectionHeading';
 import { fetchProducts, IMAGE_BASE_URL } from '@/lib/api';

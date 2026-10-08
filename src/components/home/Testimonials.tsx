@@ -1,4 +1,3 @@
-import React from 'react';
 import { SectionHeading } from '../ui/SectionHeading';
 import { Star, Quote } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';

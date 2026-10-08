@@ -1,12 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { SectionHeading } from '../ui/SectionHeading';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { fetchProducts, IMAGE_BASE_URL } from '@/lib/api';
-import { IndianRupee, Star, ShoppingCart } from 'lucide-react';
+import { IndianRupee, Star } from 'lucide-react';
 import { AddToCartButton } from '../ui/AddToCartButton';
 
 export async function FeaturedProducts() {
